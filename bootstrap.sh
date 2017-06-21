@@ -8,6 +8,14 @@ cd "$(dirname "${BASH_SOURCE}")";
 git pull origin master;
 
 function doIt() {
+  # Install the platform dependant things
+  if [[ $PLATFORM == "Linux" ]]; then
+    sudo ~/.bootstrap-linux
+  elif [[ $PLATFORM == "Darwin" ]]; then
+    sudo ~/.bootstrap-macos
+  fi
+
+  # Copy the dotfiles to your home folder.
   rsync --exclude ".git/" \
     --exclude ".DS_Store" \
     --exclude ".osx" \
@@ -16,13 +24,6 @@ function doIt() {
     --exclude "LICENSE-MIT.txt" \
     -avh --no-perms . ~;
   source ~/.bash_profile;
-
-  # Install the platform dependant things
-  if [[ $PLATFORM == "Linux" ]]; then
-    sudo ~/.bootstrap-linux
-  elif [[ $PLATFORM == "Darwin" ]]; then
-    sudo ~/.bootstrap-macos
-  fi
 
   # Install Tmux Plugin Manager
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
