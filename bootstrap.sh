@@ -8,11 +8,14 @@ cd "$(dirname "${BASH_SOURCE}")";
 git pull origin master;
 
 function doIt() {
+  PLATFORM=$(uname)
+  echo "Detected $PLATFORM"
+
   # Install the platform dependant things
   if [[ $PLATFORM == "Linux" ]]; then
-    sudo ~/.bootstrap-linux
+    sudo bash .bootstrap-linux
   elif [[ $PLATFORM == "Darwin" ]]; then
-    sudo ~/.bootstrap-macos
+    ./.bootstrap-macos
   fi
 
   # Copy the dotfiles to your home folder.
@@ -20,6 +23,8 @@ function doIt() {
     --exclude ".DS_Store" \
     --exclude ".osx" \
     --exclude "bootstrap.sh" \
+    --exclude ".bootstrap-macos" \
+    --exclude ".bootstrap-linux" \
     --exclude "README.md" \
     --exclude "LICENSE-MIT.txt" \
     -avh --no-perms . ~;
