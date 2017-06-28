@@ -5,14 +5,16 @@ if !has('nvim')
   Plug 'tpope/vim-sensible'            " Let's be sensible now...
 endif
 
-" Color
+" Appearance
 Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Interface
+" Extentions
 Plug 'kien/ctrlp.vim'                  " fuzzy finder
 Plug 'scrooloose/nerdtree'             " tree explorer
 
-" Syntax checking
+" Linting
 Plug 'neomake/neomake'
 Plug 'benjie/neomake-local-eslint.vim'
 
@@ -30,8 +32,7 @@ Plug 'plasticboy/vim-markdown'         " markdown
 Plug 'pearofducks/ansible-vim'         " better YAML
 Plug 'pangloss/vim-javascript'         " better JavaScript
 Plug 'mxw/vim-jsx'                     " JSX
-Plug 'fleischie/vim-styled-components' " JS styled-components
-Plug 'Beerstorm/vim-brainfuck'         " Brainfuck
+Plug 'fleischie/vim-styled-components' " styled-components
 
 call plug#end()
 
@@ -76,6 +77,10 @@ set background=dark
 colorscheme solarized
 highlight clear SignColumn
 
+let g:airline_powerline_fonts = 1
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+
 "============================[ General Config ]=================================
 set autowriteall    " Save before closing
 set autoread        " Reloads files changed outside of vim
@@ -114,6 +119,10 @@ set showbreak=\ \ ↳\ " Better line wrap indicator
 set cpo+=n           " Indicator inline with line numbers
 
 "============================[ Custom Keybindings ]=============================
+
+" Disable Ex mode
+nnoremap Q <Nop>
+
 " Change leader to <Space>
 let mapleader="\<Space>"
 
