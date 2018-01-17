@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
 if [[ $PLATFORM == "Darwin" ]]; then
-  # Install GNU core utilities (those that come with macOS are outdated).
-  export PATH="$PATH:$(brew --prefix coreutils)/libexec/gnubin"
 fi

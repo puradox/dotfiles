@@ -39,12 +39,10 @@ function doIt() {
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   nvim +PlugInstall +qall
 
-  # Install node version manager (nvm)
-  git clone https://github.com/creationix/nvm.git "$NVM_DIR"
-  pushd "$NVM_DIR"
-  git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" origin`
-  popd
-  . "$NVM_DIR/nvm.sh"
+  # Install and load nvm (Node.js version manager)
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
   # Install the latest version of node
   nvm install node
