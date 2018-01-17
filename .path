@@ -2,3 +2,5 @@
 
 if [[ $PLATFORM == "Darwin" ]]; then
 fi
+
+export PATH=$PATH:$GOPATH/bin

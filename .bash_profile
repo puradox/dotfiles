@@ -26,6 +26,6 @@ if [[ $PLATFORM == "Darwin" ]]; then
 
 fi
 
-# Configure node verson manager (nvm)
+# Configure nvm (Node.js verson manager)
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

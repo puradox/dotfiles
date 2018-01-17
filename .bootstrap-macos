@@ -19,5 +19,21 @@ brew install the_silver_searcher
 brew install git
 brew install tmux
 
+# Install the Go programming language
+brew install go
+brew install hg
+brew install bzr
+mkdir $HOME/go
+
+# Install web applications
+brew cask install google-chrome
+brew cask install firefox
+
+# Install development tools
+brew cask install visual-studio-code
+brew cask install iterm2
+brew cask install slack
+brew cask install insomnia 
+
 # Remove outdated versions from the cellar.
 brew cleanup
