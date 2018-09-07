@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 # Upgrade latest packages
-apt-get update
-apt-get full-upgrade --yes
+apt update
+apt full-upgrade --yes
 
 # Install Neovim
 if ! hash nvim 2>/dev/null; then
-  apt-get install software-properties-common
+  apt install software-properties-common
   add-apt-repository ppa:neovim-ppa/stable
-  apt-get update
-  apt-get install neovim python-dev python-pip python3-dev python3-pip xsel
+  apt update
+  apt install neovim python-dev python-pip python3-dev python3-pip xsel
 
   # Set Neovim to default editor
   update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60

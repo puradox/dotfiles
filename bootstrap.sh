@@ -13,21 +13,20 @@ function doIt() {
 
   # Install the platform dependant things
   if [[ $PLATFORM == "Linux" ]]; then
-    sudo bash .bootstrap-linux
+    sudo bash bootstrap-linux.sh
   elif [[ $PLATFORM == "Darwin" ]]; then
-    ./.bootstrap-macos
+    ./bootstrap-macos.sh
+    stow iterm2
   fi
 
-  # Copy the dotfiles to your home folder.
-  rsync --exclude ".git/" \
-    --exclude ".DS_Store" \
-    --exclude ".osx" \
-    --exclude "bootstrap.sh" \
-    --exclude ".bootstrap-macos" \
-    --exclude ".bootstrap-linux" \
-    --exclude "README.md" \
-    --exclude "LICENSE-MIT.txt" \
-    -avh --no-perms . ~;
+  # Symlink the dotfiles to the home directory.
+  stow bash
+  stow editorconfig
+  stow gdb
+  stow git
+  stow tmux
+  stow vim
+
   source ~/.bash_profile;
 
   # Install Tmux Plugin Manager
