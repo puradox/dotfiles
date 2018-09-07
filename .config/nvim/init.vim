@@ -11,46 +11,109 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Extentions
-Plug 'kien/ctrlp.vim'                  " fuzzy finder
 Plug 'scrooloose/nerdtree'             " tree explorer
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'                " fuzzy finder
+Plug 'wincent/ferret'                  " multi-line search & replace
 
 " Linting
-Plug 'neomake/neomake'
-Plug 'benjie/neomake-local-eslint.vim'
+Plug 'w0rp/ale'
 
 " Utilities
 Plug 'tpope/vim-surround'              " surround in braces
+Plug 'tpope/vim-repeat'                " enable repeating supported plugins
 Plug 'tpope/vim-fugitive'              " git wrapper
 Plug 'scrooloose/nerdcommenter'        " easy block commenting
 Plug 'godlygeek/tabular'               " text alightment
 Plug 'christoomey/vim-tmux-navigator'  " tmux window switching
 Plug 'kassio/neoterm'                  " Wrapper of neovim's :terminal
 Plug 'janko-m/vim-test'                " Run your tests at the speed of thought
+Plug 'junegunn/goyo.vim'               " Distraction-free writing
+Plug 'editorconfig/editorconfig-vim'   " EditorConfig
 
 " Additional Languages
 Plug 'plasticboy/vim-markdown'         " markdown
-Plug 'pearofducks/ansible-vim'         " better YAML
 Plug 'pangloss/vim-javascript'         " better JavaScript
 Plug 'mxw/vim-jsx'                     " JSX
-Plug 'fleischie/vim-styled-components' " styled-components
+Plug 'leafgarland/typescript-vim'      " TypeScript
+
+" React development
+Plug 'mxw/vim-jsx'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown'] }
 
 call plug#end()
 
-"============================[ ctrlp.vim ]======================================
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+"===============================[ goto ]========================================
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+    silent !tmux resize-pane -Z
+  endif
+endfunction
 
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+    silent !tmux resize-pane -Z
+  endif
+endfunction
 
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|node_modules|DS_Store)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-if executable('ag') " The Silver Searcher
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0 " ag is fast enough; doesn't need to cache
-endif
+"===============================[ fzf ]=========================================
+
+" Use ag for finding files; respects .gitignore
+let $FZF_DEFAULT_COMMAND = 'rg --files --glob "!{.git,node_modules,bower_components}"'
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
+" Files command with preview window
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nmap <C-p> :Files<cr>
+nmap <C-f> :Ag!<cr>
 
 "============================[ vim-test ]=======================================
 
@@ -63,11 +126,14 @@ if !has('nvim')
   let test#strategy = "neoterm"
 endif
 
+"===============================[ Ale ]=========================================
+let g:ale_completion_enabled = 1
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+let g:ale_linters_explicit = 1
 
-"============================[ Neomake ]========================================
-let g:neomake_javascript_enabled_maker = ['eslint']
-
-autocmd! BufWritePost,BufEnter *.js Neomake
+let g:airline#extensions#ale#enabled = 1
 
 "============================[ Font + Color Theme ]=============================
 let g:jsx_ext_required = 0
@@ -90,6 +156,7 @@ set clipboard+=unnamedplus
 set backupcopy=yes  " Make a copy of the file and overwrite the original one
 set number          " Add line numbers
 set gdefault        " Add the global flag to search/replace by default
+set colorcolumn=81  " Ruler at the 80th character
 
 " Enable smart % matching for HTML, LaTeX, etc.
 runtime macros/matchit.vim
@@ -182,17 +249,13 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 
-" Use ag over grep
-if executable('ag')
-  set grepprg=ag\ --vimgrep\ $*
-  set grepformat=%f:%l:%c:%m
+" Use ripgrep over grep
+if executable('rg')
+  set grepprg=rg\ --vimgrep
 endif
 
-" Bind \ (backward slash) tp grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow
-
 " Bind K to grep word under cursor
-nnoremap K :grep
+nnoremap K :grep <cword> *<CR>
 
 "============================[ Backup/Swap Locations ]==========================
 if !isdirectory($HOME.'/.vim/backup')
@@ -257,18 +320,18 @@ autocmd FilterWritePre  * :call TrimWhiteSpace()
 autocmd BufWritePre     * :call TrimWhiteSpace()
 
 "============================[ Laptop Mode ]====================================
-noremap <silent> <Leader>l :call LaptopMode()<CR>
-let g:laptop_mode = 0
-
-function LaptopMode()
-    if g:laptop_mode
-        set guifont=Consolas:h14
-        let g:laptop_mode = 0
-    else
-        set guifont=Consolas:h16
-        let g:laptop_mode = 1
-    endif
-endfunction
+"noremap <silent> <Leader>l :call LaptopMode()<CR>
+"let g:laptop_mode = 0
+"
+"function LaptopMode()
+"    if g:laptop_mode
+"        set guifont=Consolas:h14
+"        let g:laptop_mode = 0
+"    else
+"        set guifont=Consolas:h16
+"        let g:laptop_mode = 1
+"    endif
+"endfunction
 
 "============================[ Project Specific ]===============================
 "noremap <silent> <Leader>n :call Norco()<CR>
