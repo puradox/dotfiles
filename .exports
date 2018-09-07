@@ -25,3 +25,4 @@ export GPG_TTY=$(tty);
 
 # Golang
 export GOPATH=$HOME/go
+

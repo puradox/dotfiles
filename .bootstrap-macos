@@ -15,8 +15,8 @@ brew upgrade
 brew install neovim
 
 # Install other useful binaries.
-brew install the_silver_searcher
 brew install git
+brew install stow
 brew install tmux
 
 # Install the Go programming language
@@ -33,7 +33,13 @@ brew cask install firefox
 brew cask install visual-studio-code
 brew cask install iterm2
 brew cask install slack
-brew cask install insomnia 
+brew cask install insomnia
 
 # Remove outdated versions from the cellar.
 brew cleanup
+
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
+source $HOME/.cargo/env
+cargo install ripgrep
+

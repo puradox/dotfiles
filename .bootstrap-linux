@@ -21,8 +21,12 @@ if ! hash nvim 2>/dev/null; then
 fi
 
 # Install other useful binaries.
-apt install silversearcher-ag
 apt install git
-apt install wget
+apt install stow
 apt install tmux
+apt install wget
 
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
+source $HOME/.cargo/env
+cargo install ripgrep
