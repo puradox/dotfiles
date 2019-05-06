@@ -1,52 +1,85 @@
 "============================[ Plug Plugin Management ]=========================
 call plug#begin('~/.vim/plugged')
 
-if !has('nvim')
-  Plug 'tpope/vim-sensible'            " Let's be sensible now...
-endif
-
 " Appearance
-Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Extentions
-Plug 'scrooloose/nerdtree'             " tree explorer
+" File searching
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                " fuzzy finder
 Plug 'wincent/ferret'                  " multi-line search & replace
 
-" Linting
-Plug 'w0rp/ale'
-
 " Utilities
-Plug 'tpope/vim-surround'              " surround in braces
-Plug 'tpope/vim-repeat'                " enable repeating supported plugins
-Plug 'tpope/vim-fugitive'              " git wrapper
-Plug 'scrooloose/nerdcommenter'        " easy block commenting
-Plug 'godlygeek/tabular'               " text alightment
+"Plug 'airblade/vim-gitgutter'          " git line diff
 Plug 'christoomey/vim-tmux-navigator'  " tmux window switching
-Plug 'kassio/neoterm'                  " Wrapper of neovim's :terminal
-Plug 'janko-m/vim-test'                " Run your tests at the speed of thought
-Plug 'junegunn/goyo.vim'               " Distraction-free writing
-Plug 'editorconfig/editorconfig-vim'   " EditorConfig
+Plug 'editorconfig/editorconfig-vim'   " editorconfig
+Plug 'godlygeek/tabular'               " text alightment
+Plug 'jiangmiao/auto-pairs'            " bracket pairs
+Plug 'junegunn/goyo.vim'               " distraction-free writing
+Plug 'scrooloose/nerdcommenter'        " commenting
+Plug 'tpope/vim-fugitive'              " git wrapper
+Plug 'tpope/vim-repeat'                " enable repeating supported plugins
+Plug 'tpope/vim-surround'              " surround in braces
+Plug 'tpope/vim-vinegar'               " file browser
+
+" Code completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+" Rust
+Plug 'rust-lang/rust.vim'      " syntax / tags / formatting
+Plug 'majutsushi/tagbar'       " ctags
+Plug 'dbgx/lldb.nvim'          " debugger integration
+
+" React development
+"Plug 'mxw/vim-jsx'
+"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+"Plug 'prettier/vim-prettier', {
+"  \ 'do': 'npm install',
+"  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown'] }
 
 " Additional Languages
 Plug 'plasticboy/vim-markdown'         " markdown
 Plug 'pangloss/vim-javascript'         " better JavaScript
-Plug 'mxw/vim-jsx'                     " JSX
 Plug 'leafgarland/typescript-vim'      " TypeScript
-
-" React development
-Plug 'mxw/vim-jsx'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown'] }
 
 call plug#end()
 
-"===============================[ goto ]========================================
+"===============================[ Code completion ]=============================
+
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('smart_case', v:true)
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'fuchsia', 'rls']
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+
+"===============================[ Google ]======================================
+if $FUCHSIA_DIR != ""
+  source $FUCHSIA_DIR/scripts/vim/fuchsia.vim
+
+  let g:LanguageClient_loggingFile = $FUCHSIA_DIR.'/.vim/LanguageClient.log'
+  let g:LanguageClient_settingsPath = $FUCHSIA_DIR.'/.vim/settings.json'
+endif
+
+
+"===============================[ goyo ]========================================
 function! s:goyo_enter()
   if has('gui_running')
     set fullscreen
@@ -77,75 +110,48 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " Use ag for finding files; respects .gitignore
 let $FZF_DEFAULT_COMMAND = 'rg --files --glob "!{.git,node_modules,bower_components}"'
 
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Augmenting Ag command using fzf#vim#with_preview function
+" Augmenting Rg command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
 "     * For syntax-highlighting, Ruby and any of the following tools are required:
 "       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
 "       - CodeRay: http://coderay.rubychan.de/
 "       - Rouge: https://github.com/jneen/rouge
 "
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
+"   :Rg  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Rg! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 
 " Files command with preview window
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 nmap <C-p> :Files<cr>
-nmap <C-f> :Ag!<cr>
-
-"============================[ vim-test ]=======================================
-
-nmap <silent> <Leader>t :TestNearest<CR>
-nmap <silent> <Leader>T :TestFile<CR>
-nmap <silent> <Leader>a :TestSuite<CR>
-nmap <silent> <Leader>g :TestVisit<CR>
-
-if !has('nvim')
-  let test#strategy = "neoterm"
-endif
-
-"===============================[ Ale ]=========================================
-let g:ale_completion_enabled = 1
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
-let g:ale_linters_explicit = 1
-
-let g:airline#extensions#ale#enabled = 1
+nmap <C-f> :Rg!<cr>
 
 "============================[ Font + Color Theme ]=============================
 let g:jsx_ext_required = 0
 syntax enable
 
+" Base16
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
 set background=dark
-colorscheme solarized
+colorscheme base16-default-dark
 highlight clear SignColumn
+set termguicolors               " fix blue line
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
+let g:airline_theme='base16_default'
+"let g:airline_solarized_bg='dark'
 
 "============================[ General Config ]=================================
 set autowriteall    " Save before closing
@@ -156,13 +162,16 @@ set clipboard+=unnamedplus
 set backupcopy=yes  " Make a copy of the file and overwrite the original one
 set number          " Add line numbers
 set gdefault        " Add the global flag to search/replace by default
-set colorcolumn=81  " Ruler at the 80th character
+set colorcolumn=101 " Ruler at the 100th character
 
 " Enable smart % matching for HTML, LaTeX, etc.
 runtime macros/matchit.vim
 
 " Enable spell checking for markdown files
 au BufRead *.md setlocal spell
+
+" Run rustfmt on every save
+let g:rustfmt_autosave = 1
 
 "============================[ Folding ]========================================
 set foldmethod=syntax   " Fold based on indent
@@ -203,7 +212,6 @@ command Edit edit $MYVIMRC
 command Source source $MYVIMRC
 
 " Control buffers
-nnoremap <tab> <C-w><C-w>
 nnoremap <right> :bn<cr>
 nnoremap <left> :bp<cr>
 nnoremap <del> :bp\|bd #<cr>

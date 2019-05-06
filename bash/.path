@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$HOME/.cargo/bin
+export PATH="$GOPATH/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$DEV_HOME/depot_tools:$PATH"
+export PATH="$DEV_HOME/fuchsia/.jiri_root/bin:$PATH"
+export PATH="$DEV_HOME/fuchsia/zircon/prebuilt/downloads/qemu/bin:$PATH"
+export PATH="/opt/clion-stable/bin:$PATH"

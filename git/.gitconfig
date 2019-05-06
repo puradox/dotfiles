@@ -60,11 +60,16 @@
   # Enable an experimental heuristic that shifts the hunk boundary in an
   # attempt to make the resulting patch easier to read.
   indentHeuristic = true
+  tool = vimdif
 
 [diff "bin"]
 
   # Use `hexdump` to diff binary files
   textconv = hexdump -v -C
+
+[difftool]
+
+  prompt = false
 
 [help]
 
@@ -75,6 +80,15 @@
 
   # Include summaries of merged commits in newly created merge commit messages
   log = true
+  tool = vimdiff
+
+[mergetool]
+
+  prompt = true
+
+[mergetool "vimdiff"]
+
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [push]
 

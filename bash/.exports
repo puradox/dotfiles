@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Make neovim the default editor.
-export EDITOR='nvim';
+# Preferred editor for local and remote sessions
+export EDITOR='nvim'
+
 
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 export PYTHONIOENCODING='UTF-8';
@@ -23,6 +24,10 @@ export LESS_TERMCAP_md="${yellow}";
 # https://stackoverflow.com/a/42265848/96656
 export GPG_TTY=$(tty);
 
+export DEV_HOME=$HOME/Dev
+
 # Golang
 export GOPATH=$HOME/go
 
+# Rust
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
