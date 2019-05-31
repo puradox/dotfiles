@@ -1,0 +1,23 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "rust"
+  ],
+  "rust.target": "x86_64-fuchsia",
+  "rust.target_dir": "/usr/local/google/home/sbalana/Dev/fuchsia/out/cargo_target",
+  "rust.unstable_features": true,
+  "rust-client.rlsPath": "/usr/local/google/home/sbalana/Dev/fuchsia/buildtools/linux-x64/rust/bin/rls",
+  "rust-client.disableRustup": true,
+
+  "languageserver": {
+    "golang": {
+      "command": "go-langserver",
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "gocodeCompletionEnabled": true,
+        "diagnosticsEnabled": true,
+        "lintTool": "golint"
+      }
+    }
+  }
+}
+

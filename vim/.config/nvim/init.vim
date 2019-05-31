@@ -2,80 +2,178 @@
 call plug#begin('~/.vim/plugged')
 
 " Appearance
-Plug 'chriskempson/base16-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'chriskempson/base16-vim' " color scheme
+Plug 'itchyny/lightline.vim'   " status line
 
-" File searching
+" Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'                " fuzzy finder
-Plug 'wincent/ferret'                  " multi-line search & replace
+Plug 'junegunn/fzf.vim'        " fuzzy finder
+Plug 'wincent/ferret'          " multi-line search & replace
 
-" Utilities
-"Plug 'airblade/vim-gitgutter'          " git line diff
-Plug 'christoomey/vim-tmux-navigator'  " tmux window switching
-Plug 'editorconfig/editorconfig-vim'   " editorconfig
-Plug 'godlygeek/tabular'               " text alightment
-Plug 'jiangmiao/auto-pairs'            " bracket pairs
-Plug 'junegunn/goyo.vim'               " distraction-free writing
-Plug 'scrooloose/nerdcommenter'        " commenting
-Plug 'tpope/vim-fugitive'              " git wrapper
-Plug 'tpope/vim-repeat'                " enable repeating supported plugins
-Plug 'tpope/vim-surround'              " surround in braces
-Plug 'tpope/vim-vinegar'               " file browser
-
-" Code completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-" Rust
-Plug 'rust-lang/rust.vim'      " syntax / tags / formatting
+" IDE features
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " code completion
 Plug 'majutsushi/tagbar'       " ctags
 Plug 'dbgx/lldb.nvim'          " debugger integration
 
 " React development
-"Plug 'mxw/vim-jsx'
-"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-"Plug 'prettier/vim-prettier', {
-"  \ 'do': 'npm install',
-"  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown'] }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'json', 'graphql', 'markdown'],
+\ }
+Plug 'styled-components/vim-styled-components', {
+  \ 'branch': 'main',
+  \ 'for': ['javascript', 'typescript'],
+\ }
 
-" Additional Languages
-Plug 'plasticboy/vim-markdown'         " markdown
-Plug 'pangloss/vim-javascript'         " better JavaScript
-Plug 'leafgarland/typescript-vim'      " TypeScript
+" Misc
+Plug 'christoomey/vim-tmux-navigator'  " tmux window switching
+Plug 'easymotion/vim-easymotion'       " motions on speed
+Plug 'editorconfig/editorconfig-vim'   " editorconfig
+Plug 'godlygeek/tabular'               " text alightment
+Plug 'junegunn/goyo.vim'               " distraction-free writing
+Plug 'scrooloose/nerdcommenter'        " commenting
+Plug 'scrooloose/nerdtree'             " file browser
+Plug 'sheerun/vim-polyglot'            " language pack
+Plug 'tpope/vim-fugitive'              " git wrapper
+Plug 'tpope/vim-repeat'                " enable repeating supported plugins
+Plug 'tpope/vim-surround'              " surround in braces
+
+" Disabled
+"Plug 'airblade/vim-gitgutter'          " git line diff
+"Plug 'jiangmiao/auto-pairs'            " bracket pairs
 
 call plug#end()
 
+"============================[ Custom Keybindings ]=============================
+
+" Disable Ex mode
+nnoremap Q <Nop>
+
+" Change leader to <Space>
+let mapleader="\<Space>"
+
+nnoremap <Leader>s :Gstatus<cr>
+nnoremap <Leader>c :Gcommit<cr>
+nnoremap <Leader>p :Gpush<cr>
+nnoremap <Leader>d :Gdiff<cr>
+
+" Edit the RC
+command Edit edit $MYVIMRC
+command Source source $MYVIMRC
+
+" Control buffers
+nnoremap <right> :bn<cr>
+nnoremap <left> :bp<cr>
+nnoremap <del> :bp\|bd #<cr>
+
+" Build
+set makeprg=$(pwd)/build.sh
+nnoremap <F5> :silent make\|redraw!\|cc<CR>
+
+function Make(script)
+    exe 'silent !$(pwd)/' . a:script
+    redraw!
+endfunction
+
+" Plugins
+nmap <F8> :TagbarToggle<cr>
+map <C-n> :NERDTreeToggle<CR>
+
 "===============================[ Code completion ]=============================
 
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('smart_case', v:true)
+" Use tab to navigate completion list
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Required for operations modifying multiple buffers like rename.
-set hidden
+" Use enter to confirm completion
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'fuchsia', 'rls']
-    \ }
+" Close preview window when completion is done
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+set hidden          " if hidden is not set, TextEdit might fail.
+set nobackup        " Some servers have issues with backup files, see #649
+set nowritebackup
+set cmdheight=2     " Better display for messages
+set updatetime=300  " Smaller updatetime for CursorHold & CursorHoldI
+set shortmess+=c    " don't give |ins-completion-menu| messages.
+set signcolumn=yes  " always show signcolumns
 
-set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use gh to show documentation in preview window
+nnoremap <silent> gh :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+command! -nargs=0 Format :call CocAction('format')       " Use `:Format` to format current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>) " Use `:Fold` to fold current buffer
 
 "===============================[ Google ]======================================
 if $FUCHSIA_DIR != ""
   source $FUCHSIA_DIR/scripts/vim/fuchsia.vim
-
-  let g:LanguageClient_loggingFile = $FUCHSIA_DIR.'/.vim/LanguageClient.log'
-  let g:LanguageClient_settingsPath = $FUCHSIA_DIR.'/.vim/settings.json'
 endif
 
 
@@ -147,11 +245,26 @@ endif
 set background=dark
 colorscheme base16-default-dark
 highlight clear SignColumn
-set termguicolors               " fix blue line
 
-let g:airline_powerline_fonts = 1
-let g:airline_theme='base16_default'
-"let g:airline_solarized_bg='dark'
+set noshowmode
+let g:lightline = {
+  \ 'colorscheme': 'one',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ],
+  \             [ 'gitbranch' ],
+  \             [ 'readonly', 'filename', 'modified', 'cocstatus' ], ],
+  \ },
+  \ 'component_function': {
+  \   'gitbranch': 'fugitive#head',
+  \   'cocstatus': 'coc#status',
+  \   'filename': 'LightLineFilename',
+  \ },
+\ }
+
+function! LightLineFilename()
+  return expand('%')
+endfunction
+
 
 "============================[ General Config ]=================================
 set autowriteall    " Save before closing
@@ -194,42 +307,6 @@ set linebreak        " Wrap lines at convenient points
 set showbreak=\ \ ↳\ " Better line wrap indicator
 set cpo+=n           " Indicator inline with line numbers
 
-"============================[ Custom Keybindings ]=============================
-
-" Disable Ex mode
-nnoremap Q <Nop>
-
-" Change leader to <Space>
-let mapleader="\<Space>"
-
-nnoremap <Leader>s :Gstatus<cr>
-nnoremap <Leader>c :Gcommit<cr>
-nnoremap <Leader>p :Gpush<cr>
-nnoremap <Leader>d :Gdiff<cr>
-
-" Edit the RC
-command Edit edit $MYVIMRC
-command Source source $MYVIMRC
-
-" Control buffers
-nnoremap <right> :bn<cr>
-nnoremap <left> :bp<cr>
-nnoremap <del> :bp\|bd #<cr>
-
-" Build
-set makeprg=$(pwd)/build.sh
-nnoremap <F5> :silent make\|redraw!\|cc<CR>
-
-function Make(script)
-    exe 'silent !$(pwd)/' . a:script
-    redraw!
-endfunction
-
-" Plugins
-map <C-n> :NERDTreeToggle<cr>
-nmap <F8> :TagbarToggle<cr>
-nmap <F9> :CtrlPTag<cr>
-
 "============================[ Terminal ]=======================================
 
 " Escape exits terminal mode.
@@ -261,9 +338,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
-
-" Bind K to grep word under cursor
-nnoremap K :grep <cword> *<CR>
 
 "============================[ Backup/Swap Locations ]==========================
 if !isdirectory($HOME.'/.vim/backup')
