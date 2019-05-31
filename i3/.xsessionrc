@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+# Necessary to make chrome pick up the proxy settings stored in gconf.
+export DESKTOP_SESSION=cinnamon  # gnome for trusty.
+
+# NOTE: This may break your compose key.
+# See http://g/i3-users/YBexXGbik7E for more details.
+export GTK_IM_MODULE=xim
+
+# Desktop background color.
+xsetroot -solid "#333333"
+
+# Start urxvtd
+urxvtd -q -f -o
+export TERMINAL=urxvtc
+
+# Change orientation of left monitor
+xrandr --output DP-0 --rotate left
+
+# Wallpaper
+feh --bg-fill ~/.wallpaper-portrait.jpg --bg-fill ~/.wallpaper.jpg
+
+# Keyboard repeat rate
+xset r rate 200 25
+
+# Clipboard
+#pkill autocutsel
+#autocutsel &
+
+xrdb .Xresources
