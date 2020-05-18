@@ -153,9 +153,16 @@ bindsym $mod+r mode "resize"
 exec /usr/share/goobuntu-indicator/goobuntu_indicator.py             # gLinux indicator
 bindsym $win+l exec /usr/share/goobuntu-desktop-files/xsecurelock.sh # lock screen
 
+# Auto-lock the screen
+exec --no-startup-id env LOCKED_BY_SESSION_IDLE=true xautolock -time 10 -locker /usr/share/goobuntu-desktop-files/xsecurelock.sh
+
+# Authentication agent for VMware
+exec /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+
 # Gaps
 gaps inner 30
 for_window [class="^.*"] border pixel 0
+new_window 1pixel
 
 ## Base16 Default Dark
 # Author: Chris Kempson (http://chriskempson.com)
@@ -183,6 +190,7 @@ set $base0F #a16946
 bar {
     status_command i3blocks
     position top
+    tray_output primary
 
     colors {
         background $base00

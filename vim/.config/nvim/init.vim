@@ -1,4 +1,20 @@
-"============================[ Plug Plugin Management ]=========================
+"===============================[ Fuchsia ]=====================================
+if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
+  source $FUCHSIA_DIR/scripts/vim/fuchsia.vim
+
+  exec 'autocmd BufEnter ! setlocal textwidth=100' . fnameescape($FUCHSIA_DIR . '/*.md')
+  autocmd FileType fidl setlocal colorcolumn=81
+  autocmd FileType go setlocal colorcolumn=81
+
+  let $FUCHSIA_BUILD_DIR = trim(system('fx get-build-dir'))
+  let $GOROOT = $FUCHSIA_BUILD_DIR . '/host-tools/goroot'
+  let $GOPATH = $FUCHSIA_BUILD_DIR . '/gen/gopaths/grand_unified_binary'
+  let $GOFLAGS = '-tags=fuchsia'
+endif
+
+"===============================[ Plugins ]=====================================
+filetype plugin indent on
+syntax enable
 call plug#begin('~/.vim/plugged')
 
 " Appearance
@@ -10,10 +26,13 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'        " fuzzy finder
 Plug 'wincent/ferret'          " multi-line search & replace
 
-" IDE features
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " code completion
-Plug 'majutsushi/tagbar'       " ctags
-Plug 'dbgx/lldb.nvim'          " debugger integration
+" Code analysis
+Plug 'neovim/nvim-lsp'                " language server
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-lsp'
+Plug 'Shougo/echodoc.vim'
+Plug 'majutsushi/tagbar'              " ctags
+Plug 'sheerun/vim-polyglot'           " language pack
 
 " React development
 Plug 'prettier/vim-prettier', {
@@ -26,25 +45,28 @@ Plug 'styled-components/vim-styled-components', {
 \ }
 
 " Misc
-Plug 'christoomey/vim-tmux-navigator'  " tmux window switching
-Plug 'easymotion/vim-easymotion'       " motions on speed
-Plug 'editorconfig/editorconfig-vim'   " editorconfig
-Plug 'godlygeek/tabular'               " text alightment
-Plug 'junegunn/goyo.vim'               " distraction-free writing
-Plug 'scrooloose/nerdcommenter'        " commenting
-Plug 'scrooloose/nerdtree'             " file browser
-Plug 'sheerun/vim-polyglot'            " language pack
-Plug 'tpope/vim-fugitive'              " git wrapper
-Plug 'tpope/vim-repeat'                " enable repeating supported plugins
-Plug 'tpope/vim-surround'              " surround in braces
+Plug 'christoomey/vim-tmux-navigator' " tmux window switching
+Plug 'easymotion/vim-easymotion'      " motions on speed
+Plug 'editorconfig/editorconfig-vim'  " editorconfig
+Plug 'junegunn/goyo.vim'              " distraction-free writing
+Plug 'junegunn/vim-easy-align'        " alignment
+Plug 'scrooloose/nerdcommenter'       " commenting
+Plug 'scrooloose/nerdtree'            " file browser
+Plug 'tpope/vim-fugitive'             " git wrapper
+Plug 'tpope/vim-repeat'               " enable repeating supported plugins
+Plug 'tpope/vim-surround'             " surround in braces
 
 " Disabled
-"Plug 'airblade/vim-gitgutter'          " git line diff
-"Plug 'jiangmiao/auto-pairs'            " bracket pairs
+"Plug 'airblade/vim-gitgutter'        " git line diff
+"Plug 'jiangmiao/auto-pairs'          " bracket pairs
+
+if getcwd() =~ $FUCHSIA_DIR
+  Plug $FUCHSIA_DIR . '/garnet/public/lib/fidl/tools/vim'
+endif
 
 call plug#end()
 
-"============================[ Custom Keybindings ]=============================
+"==============================[ Custom Keybindings ]===========================
 
 " Disable Ex mode
 nnoremap Q <Nop>
@@ -52,14 +74,14 @@ nnoremap Q <Nop>
 " Change leader to <Space>
 let mapleader="\<Space>"
 
-nnoremap <Leader>s :Gstatus<cr>
+nnoremap <Leader>s :G<cr>
 nnoremap <Leader>c :Gcommit<cr>
 nnoremap <Leader>p :Gpush<cr>
 nnoremap <Leader>d :Gdiff<cr>
 
 " Edit the RC
-command Edit edit $MYVIMRC
-command Source source $MYVIMRC
+command! Edit edit $MYVIMRC
+command! Source source $MYVIMRC
 
 " Control buffers
 nnoremap <right> :bn<cr>
@@ -68,7 +90,7 @@ nnoremap <del> :bp\|bd #<cr>
 
 " Build
 set makeprg=$(pwd)/build.sh
-nnoremap <F5> :silent make\|redraw!\|cc<CR>
+nnoremap <F5> :silent make\|redraw!\|cc<cr>
 
 function Make(script)
     exe 'silent !$(pwd)/' . a:script
@@ -77,107 +99,51 @@ endfunction
 
 " Plugins
 nmap <F8> :TagbarToggle<cr>
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<cr>
+map <Leader>r :NERDTreeFind<cr>
 
-"===============================[ Code completion ]=============================
+"===============================[ neovim/nvim-lsp ]=============================
+"
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> gt <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gc <cmd>lua vim.lsp.buf.rename()<CR>
 
-" Use tab to navigate completion list
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+lua << EOF
+local nvim_lsp = require 'nvim_lsp'
+local configs = require 'nvim_lsp/configs'
 
-" Use enter to confirm completion
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+configs.ciderlsp = {
+ default_config = {
+   cmd = {'/google/bin/releases/editor-devtools/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'};
+   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'swift'};
+   root_dir = nvim_lsp.util.root_pattern('BUILD');
+   settings = {};
+ };
+}
 
-" Close preview window when completion is done
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+nvim_lsp.ciderlsp.setup{}
+nvim_lsp.rust_analyzer.setup({})
+nvim_lsp.gopls.setup{
+  root_dir = nvim_lsp.util.root_pattern('go.mod', '.git', 'BUILD.gn');
+}
+EOF
 
-set hidden          " if hidden is not set, TextEdit might fail.
-set nobackup        " Some servers have issues with backup files, see #649
-set nowritebackup
-set cmdheight=2     " Better display for messages
-set updatetime=300  " Smaller updatetime for CursorHold & CursorHoldI
-set shortmess+=c    " don't give |ins-completion-menu| messages.
-set signcolumn=yes  " always show signcolumns
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('_', 'max_abbr_width', 0)
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Tab completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" Close the preview window after completion is done.
+autocmd CompleteDone * silent! pclose!
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'floating'
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use gh to show documentation in preview window
-nnoremap <silent> gh :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-nmap <leader>ac  <Plug>(coc-codeaction)
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-command! -nargs=0 Format :call CocAction('format')       " Use `:Format` to format current buffer
-command! -nargs=? Fold :call CocAction('fold', <f-args>) " Use `:Fold` to fold current buffer
-
-"===============================[ Google ]======================================
-if $FUCHSIA_DIR != ""
-  source $FUCHSIA_DIR/scripts/vim/fuchsia.vim
-endif
-
-
-"===============================[ goyo ]========================================
+"===============================[ junegunn/goyo.vim ]===========================
 function! s:goyo_enter()
   if has('gui_running')
     set fullscreen
@@ -203,7 +169,15 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-"===============================[ fzf ]=========================================
+"===============================[ junegunn/vim-easy-align ]=====================
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+"===============================[ junegunn/fzf ]================================
 
 " Use ag for finding files; respects .gitignore
 let $FZF_DEFAULT_COMMAND = 'rg --files --glob "!{.git,node_modules,bower_components}"'
@@ -234,7 +208,6 @@ nmap <C-f> :Rg!<cr>
 
 "============================[ Font + Color Theme ]=============================
 let g:jsx_ext_required = 0
-syntax enable
 
 " Base16
 if filereadable(expand("~/.vimrc_background"))
@@ -276,15 +249,97 @@ set backupcopy=yes  " Make a copy of the file and overwrite the original one
 set number          " Add line numbers
 set gdefault        " Add the global flag to search/replace by default
 set colorcolumn=101 " Ruler at the 100th character
+set nojoinspaces    " Only insert one space after a '.', '?', and '!'
 
 " Enable smart % matching for HTML, LaTeX, etc.
 runtime macros/matchit.vim
 
 " Enable spell checking for markdown files
-au BufRead *.md setlocal spell
+autocmd BufEnter *.md setlocal spell
+
+"============================[ Line Numbers ]===================================
+set number         " Show the absolute line number where the cursor is
+set relativenumber " Show relative line numbers everywhere else
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+augroup END
+
+"============================[ Rust ]===========================================
 
 " Run rustfmt on every save
-let g:rustfmt_autosave = 1
+"let g:rustfmt_autosave = 1
+
+" Load and compile tags automatically
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+
+" Better tagbar
+let g:rust_use_custom_ctags_defs = 1  " if using rust.vim
+let g:tagbar_type_rust = {
+  \ 'ctagstype' : 'rust',
+  \ 'ctagsbin' : '/bin/ctags-universal',
+  \ 'kinds' : [
+      \ 'n:modules',
+      \ 's:structures:1',
+      \ 'i:interfaces',
+      \ 'c:implementations',
+      \ 'f:functions:1',
+      \ 'g:enumerations:1',
+      \ 't:type aliases:1:0',
+      \ 'v:constants:1:0',
+      \ 'M:macros:1',
+      \ 'm:fields:1:0',
+      \ 'e:enum variants:1:0',
+      \ 'P:methods:1',
+  \ ],
+  \ 'sro': '::',
+  \ 'kind2scope' : {
+      \ 'n': 'module',
+      \ 's': 'struct',
+      \ 'i': 'interface',
+      \ 'c': 'implementation',
+      \ 'f': 'function',
+      \ 'g': 'enum',
+      \ 't': 'typedef',
+      \ 'v': 'variable',
+      \ 'M': 'macro',
+      \ 'm': 'field',
+      \ 'e': 'enumerator',
+      \ 'P': 'method',
+  \ },
+\ }
+
+" ===========================[ Golang ]=========================================
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent',
+	\ 'kinds'     : [
+      \ 'p:package',
+      \ 'i:imports:1',
+      \ 'c:constants',
+      \ 'v:variables',
+      \ 't:types',
+      \ 'n:interfaces',
+      \ 'w:fields',
+      \ 'e:embedded',
+      \ 'm:methods',
+      \ 'r:constructor',
+      \ 'f:functions',
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+      \ 't' : 'ctype',
+      \ 'n' : 'ntype',
+	\ },
+	\ 'scope2kind' : {
+      \ 'ctype' : 't',
+      \ 'ntype' : 'n',
+	\ },
+\ }
 
 "============================[ Folding ]========================================
 set foldmethod=syntax   " Fold based on indent

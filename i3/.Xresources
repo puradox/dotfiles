@@ -1,4 +1,4 @@
-URxvt.font: xft:DejaVu Sans Mono Nerd Font:size=11
+URxvt.font: xft:DejaVu Sans Mono Nerd Font:size=10
 
 URxvt*colorBD:            #ffffff
 URxvt*cursorColor:        #ff8939
@@ -11,10 +11,16 @@ URxvt.keysym.Shift-Control-V: eval:paste_clipboard
 URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 
 ! Clickable URLs
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,matcher,clipboard
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 URxvt.matcher.rend.0: Uline Bold fg5
+
+! Control + Arrow Keys = Skip words
+URxvt.keysym.Control-Up:     \033[1;5A
+URxvt.keysym.Control-Down:   \033[1;5B
+URxvt.keysym.Control-Left:   \033[1;5D
+URxvt.keysym.Control-Right:  \033[1;5C
 
 ! Base16 Default Dark
 ! Scheme: Chris Kempson (http://chriskempson.com)

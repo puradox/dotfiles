@@ -31,3 +31,12 @@ export GOPATH=$HOME/go
 
 # Rust
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# Python
+export PYTHONPATH="$PYTHONPATH:/usr/lib/llvm-4.0/lib/python2.7/site-packages"
+
+# Fuchsia
+export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk
+
+# CastOS
+export USE_GOMA=1

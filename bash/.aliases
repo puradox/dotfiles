@@ -50,3 +50,44 @@ if [[ $PLATFORM == "Darwin" ]]; then
   # Lock the screen (when going AFK)
   alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
+
+
+# Image viewer
+alias memes='sxiv -a -b -s f -S 60 $HOME/Downloads/memes/* &'
+
+##
+## Fuchsia
+##
+
+# Directories
+alias f='cd $FUCHSIA_DIR'
+alias fn='cd $FUCHSIA_DIR/src/connectivity/network/netstack3'
+alias fn2='cd $FUCHSIA_DIR/src/connectivity/network/netstack'
+alias fidl='cd $FUCHSIA_DIR/sdk/fidl'
+alias fidl_gen='cd $FUCHSIA_DIR/out/default/fidling/gen/zircon/public/fidl'
+
+# Updating
+alias doc='
+  fx rustdoc //src/connectivity/network/netstack3/core:netstack3-core
+'
+alias gen-rust-analyzer='
+  $FUCHSIA_DIR/scripts/gen_rust_analyzer.py `fx get-build-dir`/project.json
+  ln -f -s `fx get-build-dir`/rust-project.json $FUCHSIA_DIR/rust-project.json
+'
+alias update='jiri update && fx compdb && gen-rust-analyzer && doc'
+
+# Editing
+alias format='
+  fx rustfmt //src/connectivity/network/netstack3:bin &&
+  fx rustfmt //src/connectivity/network/netstack3/core:netstack3-core
+'
+
+# Testing
+alias watch-test='
+  rg --files -g *.rs | entr fx run-test netstack3_tests -- test_icmp_echo_socket --nocapture
+'
+alias watch-format='
+  echo "Cleaning up your shit <3" &&
+  fx format-code &&
+  rg --files -g *.rs -g *.fidl -g *.gn | entr fx format-code
+'

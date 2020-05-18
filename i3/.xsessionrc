@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 # Necessary to make chrome pick up the proxy settings stored in gconf.
 export DESKTOP_SESSION=cinnamon  # gnome for trusty.
 
@@ -9,24 +7,29 @@ export DESKTOP_SESSION=cinnamon  # gnome for trusty.
 # See http://g/i3-users/YBexXGbik7E for more details.
 export GTK_IM_MODULE=xim
 
-# Desktop background color.
-xsetroot -solid "#333333"
+# Keyboard repeat rate
+xset r rate 200 25
 
 # Start urxvtd
 urxvtd -q -f -o
 export TERMINAL=urxvtc
 
 # Change orientation of left monitor
-xrandr --output DP-0 --rotate left
+xrandr \
+  --output DP-0 --rotate left --auto \
+  --output DP-2 --right-of DP-0 --primary --auto \
+  --output DP-6 --right-of DP-2 --auto
+
+# Desktop background color.
+xsetroot -solid "#333333"
 
 # Wallpaper
-feh --bg-fill ~/.wallpaper-portrait.jpg --bg-fill ~/.wallpaper.jpg
-
-# Keyboard repeat rate
-xset r rate 200 25
+feh --bg-fill ~/.wallpaper.jpg --bg-fill ~/.wallpaper-portrait.jpg --bg-fill ~/.wallpaper.jpg
 
 # Clipboard
 #pkill autocutsel
 #autocutsel &
 
 xrdb .Xresources
+
+exec /usr/local/bin/i3

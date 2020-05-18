@@ -26,6 +26,11 @@ if [[ $PLATFORM == "Darwin" ]]; then
 
 fi
 
+# Enable programmable completion features
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
+fi
+
 # Configure nvm (Node.js verson manager)
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -52,8 +57,8 @@ if [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
   #ps ${SSH_AGENT_PID} doesn't work under cywgin
   ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-  start_agent;
-}
+    start_agent;
+  }
 else
   start_agent;
 fi
@@ -65,5 +70,5 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # Google
-source "$HOME/Dev/fuchsia/scripts/fx-env.sh"
+source "$HOME/fuchsia/scripts/fx-env.sh"
 fx-update-path
