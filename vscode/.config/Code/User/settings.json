@@ -1,0 +1,213 @@
+{
+    //
+    // Editor
+    //
+
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.renderSideBySide": true,
+    "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.renderWhitespace": "none",
+    "editor.suggestSelection": "first",
+    "files.autoSave": "afterDelay",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+
+    "editor.tabSize": 8,
+    "editor.cursorStyle": "line",
+    "editor.insertSpaces": false,
+    "editor.lineNumbers": "on",
+    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+    "editor.wordWrap": "off",
+
+    //
+    // Terminal
+    //
+
+    "terminal.integrated.shellArgs.linux": ["-l"],
+
+    //
+    // Vim
+    //
+
+    "vim.easymotion": true,
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+    "vim.joinspaces": false,
+    "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
+
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "left"
+            ],
+            "commands": [
+                "workbench.action.previousEditorInGroup"
+            ]
+        },
+        {
+            "before": [
+                "right"
+            ],
+            "commands": [
+                "workbench.action.nextEditorInGroup"
+            ]
+        },
+        {
+            "before": [
+                "down"
+            ],
+            "commands": [
+                "workbench.action.compareEditor.nextChange"
+            ]
+        },
+        {
+            "before": [
+                "up"
+            ],
+            "commands": [
+                "workbench.action.compareEditor.previousChange"
+            ]
+        },
+        {
+            "before": [
+                "ctrl+n"
+            ],
+            "commands": [
+                "workbench.view.explorer"
+            ]
+        }
+    ],
+
+    //
+    // Git
+    //
+
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "gitlens.codeLens.enabled": false,
+
+    //
+    // Go
+    //
+
+    "go.formatTool": "goimports",
+    "go.toolsManagement.autoUpdate": true,
+
+    //
+    // Rust
+    //
+
+    "rust-analyzer.lens.run": false,
+    "rust-analyzer.lens.debug": false,
+
+    //
+    // Python
+    //
+
+    "python.languageServer": "Pylance",
+    "python.pythonPath": "/usr/bin/python3",
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+
+    //
+    // Java
+    //
+
+    "[java]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "google.g3",
+        "editor.rulers": [100]
+    },
+
+    //
+    // Spelling
+    //
+
+    "cSpell.enabled": true,
+    "cSpell.userWords": [
+        "addrs",
+        "anvl",
+        "any",
+        "anycast",
+        "argh",
+        "at",
+        "bindtodevice",
+        "castos",
+        "datagram",
+        "datagrams",
+        "dgram",
+        "dut",
+        "dut's",
+        "duts",
+        "fasync",
+        "fidl",
+        "fxbug",
+        "gorountine",
+        "gvisor",
+        "highperf",
+        "icmp",
+        "icmpv",
+        "ifindex",
+        "igmp",
+        "igmpv",
+        "ignore",
+        "ignore unexported",
+        "imr",
+        "inaddr",
+        "ip",
+        "ipproto",
+        "ipv",
+        "ispeed",
+        "ixanvl",
+        "kbaud",
+        "libc",
+        "loopback",
+        "loopback addrs",
+        "luci",
+        "mcstub",
+        "mitchellh",
+        "mreq",
+        "mreqn",
+        "mroute",
+        "multiaddr",
+        "multicast",
+        "nanos",
+        "netdev",
+        "netdevice",
+        "netemul",
+        "netmask",
+        "netstack",
+        "nicid",
+        "nics",
+        "op",
+        "ospeed",
+        "posix",
+        "qemu",
+        "repr",
+        "routable",
+        "rsync",
+        "run",
+        "setsockopt",
+        "singlethreaded",
+        "smcroute",
+        "so",
+        "socklen",
+        "stdbuf",
+        "structs",
+        "subcommand",
+        "t",
+        "tals",
+        "tcpadv",
+        "tcpip",
+        "tcpperf",
+        "testid",
+        "tty",
+        "unexported",
+        "unreachability",
+        "updated",
+        "updated at nanos",
+        "vectorised"
+    ]
+}
