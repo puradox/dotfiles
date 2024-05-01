@@ -91,3 +91,18 @@ alias watch-format='
   fx format-code &&
   rg --files -g *.rs -g *.fidl -g *.gn | entr fx format-code
 '
+
+# Fuchsia SDK
+
+alias fconfig='/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk/tools/x64/fconfig'
+alias fssh='/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk/tools/x64/fssh'
+
+# Google3
+
+alias bluze=/google/bin/releases/blueprint-bluze/public/bluze
+alias copybara=/google/bin/releases/copybara/public/copybara/copybara
+
+# nnn with preview plugin autoloaded
+alias n='nnn -P p'
+
+alias git-prune-old-branches='git branch --merged | tail -n +2 | grep -v main | grep -v master > /tmp/merged-branches && vim /tmp/merged-branches && xargs git branch -d < /tmp/merged-branches'

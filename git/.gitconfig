@@ -126,12 +126,12 @@
 	insteadOf = https://team.googlesource.com/
 
 [user]
-	signingkey = C8D60E0BC85F7935A9C14F811145538EFC5DAD0C
+	signingkey = 07F89EC07E1ED502
 	name = Sam Balana
 	email = sbalana@google.com
 
 [http]
-	cookiefile = ~/.gitcookies
+	cookiefile = /usr/local/google/home/sbalana/.gitcookies
 
 [credential]
 	helper = corpsso
@@ -160,3 +160,44 @@
 	insteadOf = https://nest-camera-internal-review.googlesource.com/
 [pull]
 	rebase = true
+[url "persistent-https://github.git.corp.google.com/"]
+	insteadOf = https://github.googlesource.com/
+[url "sso://android/"]
+	insteadOf = https://android.googlesource.com/
+[url "sso://chrome-internal/"]
+	insteadOf = https://chrome-internal.googlesource.com/
+[url "sso://chromium/"]
+	insteadOf = https://chromium.googlesource.com/
+[url "sso://dart/"]
+	insteadOf = https://dart.googlesource.com/
+[url "sso://googleplex-android/"]
+	insteadOf = https://googleplex-android.googlesource.com/
+[url "sso://partner-fuchsia/"]
+	insteadOf = https://partner-fuchsia.googlesource.com/
+[url "sso://turquoise-internal/"]
+	insteadOf = https://turquoise-internal.googlesource.com/
+[gpg]
+	program = /bin/gpg
+[repo]
+	superprojectChoiceExpire = 1657842363
+	superprojectChoice = true
+[url "persistent-https://googleplex-android.git.corp.google.com"]
+	insteadof = https://googleplex-android.googlesource.com
+	insteadof = https://googleplex-android-review.googlesource.com
+[url "persistent-https://android.git.corp.google.com"]
+	insteadof = https://android.googlesource.com
+	insteadof = https://android-review.googlesource.com
+[url "persistent-https://partner-android.git.corp.google.com"]
+	insteadof = https://partner-android.googlesource.com
+	insteadof = https://partner-android-review.googlesource.com
+
+[alias]
+  amend = commit --amend --no-edit
+  uc = push origin HEAD:refs/for/main%l=Commit-Queue+1,publish-comments
+  up = push origin HEAD:refs/for/main%publish-comments
+  autosubmit = push origin HEAD:refs/for/main%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments
+[url "sso://fuchsia/"]
+	insteadOf = https://fuchsia.googlesource.com/
+	insteadOf = https://fuchsia-review.googlesource.com/
+	insteadOf = http://fuchsia.googlesource.com/
+	insteadOf = http://fuchsia-review.googlesource.com/

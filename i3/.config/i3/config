@@ -9,8 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
-set $win Mod4
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -20,7 +19,7 @@ font pango:DejaVu Sans Mono  10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec /bin/urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -150,8 +149,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Google stuff
-exec /usr/share/goobuntu-indicator/goobuntu_indicator.py             # gLinux indicator
-bindsym $win+l exec /usr/share/goobuntu-desktop-files/xsecurelock.sh # lock screen
+exec /usr/share/goobuntu-indicator/goobuntu_indicator.py                   # gLinux indicator
+bindsym $mod+Ctrl+l exec /usr/share/goobuntu-desktop-files/xsecurelock.sh # lock screen
 
 # Auto-lock the screen
 exec --no-startup-id env LOCKED_BY_SESSION_IDLE=true xautolock -time 10 -locker /usr/share/goobuntu-desktop-files/xsecurelock.sh
@@ -160,7 +159,8 @@ exec --no-startup-id env LOCKED_BY_SESSION_IDLE=true xautolock -time 10 -locker 
 exec /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
 # Gaps
-gaps inner 30
+gaps inner 15
+smart_gaps on # only enable gaps when there is at least one container
 for_window [class="^.*"] border pixel 0
 new_window 1pixel
 
@@ -189,6 +189,7 @@ set $base0F #a16946
 # Basic bar configuration using the Base16 variables.
 bar {
     status_command i3blocks
+    # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
     position top
     tray_output primary
 

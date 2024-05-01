@@ -5,16 +5,15 @@
 
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.renderSideBySide": true,
-    "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "FiraCode Nerd Font Mono, monospace",
     "editor.renderWhitespace": "none",
     "editor.suggestSelection": "first",
     "files.autoSave": "afterDelay",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter.notebook.ipynb"
     },
 
-    "editor.tabSize": 8,
+    "editor.tabSize": 4,
     "editor.cursorStyle": "line",
     "editor.insertSpaces": false,
     "editor.lineNumbers": "on",
@@ -76,10 +75,25 @@
                 "ctrl+n"
             ],
             "commands": [
-                "workbench.view.explorer"
+                "workbench.action.focusSideBar"
+            ]
+        },
+        {
+            "before": [ "g", "r" ],
+            "commands": [
+                "references-view.findReferences"
+            ]
+        },
+        {
+            "before": [ "g", "i" ],
+            "commands": [
+                "references-view.findImplementations"
             ]
         }
     ],
+    "vim.handleKeys": {
+        "<C-p>": false,
+    },
 
     //
     // Git
@@ -107,9 +121,15 @@
     // Python
     //
 
+    "[python]": {
+        "editor.formatOnType": true
+    },
     "python.languageServer": "Pylance",
-    "python.pythonPath": "/usr/bin/python3",
     "python.defaultInterpreterPath": "/usr/bin/python3",
+    "python.venvFolders": [
+        "${workspaceFolder}/venv",
+    ],
+    "python.formatting.provider": "black"
 
     //
     // Java
@@ -127,6 +147,8 @@
 
     "cSpell.enabled": true,
     "cSpell.userWords": [
+        "IPERF",
+        "WLAN",
         "addrs",
         "anvl",
         "any",
@@ -143,30 +165,37 @@
         "duts",
         "fasync",
         "fidl",
+        "formatdoc",
         "fxbug",
         "gorountine",
         "gvisor",
         "highperf",
         "icmp",
         "icmpv",
+        "iface",
         "ifindex",
         "igmp",
         "igmpv",
-        "ignore",
         "ignore unexported",
+        "ignore",
         "imr",
         "inaddr",
+        "indoc",
         "ip",
         "ipproto",
         "ipv",
         "ispeed",
+        "itertools",
         "ixanvl",
         "kbaud",
+        "killall",
         "libc",
-        "loopback",
         "loopback addrs",
+        "loopback",
         "luci",
         "mcstub",
+        "mdns",
+        "minicircuits",
         "mitchellh",
         "mreq",
         "mreqn",
@@ -181,8 +210,12 @@
         "netstack",
         "nicid",
         "nics",
+        "nodename",
         "op",
         "ospeed",
+        "paramiko",
+        "pdus",
+        "pdus",
         "posix",
         "qemu",
         "repr",
@@ -197,17 +230,46 @@
         "stdbuf",
         "structs",
         "subcommand",
+        "synaccess",
+        "sysinfo",
         "t",
         "tals",
         "tcpadv",
         "tcpip",
         "tcpperf",
+        "tempfile",
         "testid",
         "tty",
         "unexported",
         "unreachability",
-        "updated",
         "updated at nanos",
-        "vectorised"
-    ]
+        "updated",
+        "vectorised",
+    ],
+    "window.menuBarVisibility": "toggle",
+    "editor.fontSize": 13,
+    "[bcl]": {
+        "editor.defaultFormatter": "cider-team.vscode-ciderlsp"
+    },
+    "explorer.confirmDelete": false,
+    "[starlark]": {
+        "editor.defaultFormatter": "BazelBuild.vscode-bazel"
+    },
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "git.rebaseWhenSync": true,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.chainingHints.enable": false,
+    "editor.rulers": [
+        88,
+        100
+    ],
+    "git.detectSubmodules": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "vim.textwidth": 88,
 }

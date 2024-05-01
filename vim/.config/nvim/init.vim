@@ -4,12 +4,15 @@ if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
 
   exec 'autocmd BufEnter ! setlocal textwidth=100' . fnameescape($FUCHSIA_DIR . '/*.md')
   autocmd FileType fidl setlocal colorcolumn=81
+  autocmd FileType fidl setlocal textwidth=80
   autocmd FileType go setlocal colorcolumn=81
+  autocmd FileType go setlocal textwidth=80
 
   let $FUCHSIA_BUILD_DIR = trim(system('fx get-build-dir'))
   let $GOROOT = $FUCHSIA_BUILD_DIR . '/host-tools/goroot'
   let $GOPATH = $FUCHSIA_BUILD_DIR . '/gen/gopaths/grand_unified_binary'
   let $GOFLAGS = '-tags=fuchsia'
+  let $GO111MODULE = 'off'
 endif
 
 "===============================[ Plugins ]=====================================
@@ -27,7 +30,7 @@ Plug 'junegunn/fzf.vim'        " fuzzy finder
 Plug 'wincent/ferret'          " multi-line search & replace
 
 " Code analysis
-Plug 'neovim/nvim-lsp'                " language server
+Plug 'neovim/nvim-lspconfig'          " language server
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-lsp'
 Plug 'Shougo/echodoc.vim'
@@ -74,6 +77,7 @@ nnoremap Q <Nop>
 " Change leader to <Space>
 let mapleader="\<Space>"
 
+" Git helpers
 nnoremap <Leader>s :G<cr>
 nnoremap <Leader>c :Gcommit<cr>
 nnoremap <Leader>p :Gpush<cr>
@@ -102,8 +106,8 @@ nmap <F8> :TagbarToggle<cr>
 map <C-n> :NERDTreeToggle<cr>
 map <Leader>r :NERDTreeFind<cr>
 
-"===============================[ neovim/nvim-lsp ]=============================
-"
+"===============================[ neovim/nvim-lspconfig ]=======================
+
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -112,27 +116,50 @@ nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gc <cmd>lua vim.lsp.buf.rename()<CR>
 
 lua << EOF
-local nvim_lsp = require 'nvim_lsp'
-local configs = require 'nvim_lsp/configs'
+local lspconfig = require 'lspconfig'
 
-configs.ciderlsp = {
- default_config = {
-   cmd = {'/google/bin/releases/editor-devtools/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'};
-   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'swift'};
-   root_dir = nvim_lsp.util.root_pattern('BUILD');
-   settings = {};
- };
-}
-
-nvim_lsp.ciderlsp.setup{}
-nvim_lsp.rust_analyzer.setup({})
-nvim_lsp.gopls.setup{
-  root_dir = nvim_lsp.util.root_pattern('go.mod', '.git', 'BUILD.gn');
+lspconfig.rust_analyzer.setup{}
+lspconfig.gopls.setup{
+  root_dir = lspconfig.util.root_pattern('go.mod', '.git', 'BUILD.gn');
 }
 EOF
 
+if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
+lua << EOF
+local lspconfig = require 'lspconfig'
+local fuchsia_dir = os.getenv("FUCHSIA_DIR")
+
+if fuchsia_dir ~= nil then
+  lspconfig.clangd.setup{
+    cmd = { fuchsia_dir .. "/prebuilt/third_party/clang/linux-x64/bin/clangd", "--background-index" }
+  }
+end
+EOF
+endif
+
+if getcwd() =~ "/google/src/cloud"
+lua << EOF
+local nvim_lsp = require('lspconfig')
+local configs = require('lspconfig.configs')
+configs.ciderlsp = {
+ default_config = {
+   cmd = {'/google/bin/releases/cider/ciderlsp/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'};
+   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'python', 'bzl'};
+   root_dir = nvim_lsp.util.root_pattern('BUILD');
+   settings = {};
+ }
+}
+
+nvim_lsp.ciderlsp.setup{}
+EOF
+endif
+
+"===============================[ Shougo/deoplete.nvim ]========================
+
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('_', 'max_abbr_width', 0)
+call deoplete#custom#source('emoji', 'filetypes', [])
+call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 
 " Tab completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -250,6 +277,7 @@ set number          " Add line numbers
 set gdefault        " Add the global flag to search/replace by default
 set colorcolumn=101 " Ruler at the 100th character
 set nojoinspaces    " Only insert one space after a '.', '?', and '!'
+set scrolloff=5     " Number of screen lines above and below the cursor
 
 " Enable smart % matching for HTML, LaTeX, etc.
 runtime macros/matchit.vim

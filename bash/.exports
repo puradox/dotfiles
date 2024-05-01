@@ -40,3 +40,7 @@ export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_to
 
 # CastOS
 export USE_GOMA=1
+
+# nnn
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;d:diffs'

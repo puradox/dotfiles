@@ -1,4 +1,9 @@
-URxvt.font: xft:DejaVu Sans Mono Nerd Font:size=10
+Xft.dpi: 96
+
+xterm*faceName: xft:FiraCode Nerd Font Mono:size=9
+! xterm*faceSize: 9
+
+URxvt.font: xft:FiraCode Nerd Font Mono:size=9
 
 URxvt*colorBD:            #ffffff
 URxvt*cursorColor:        #ff8939

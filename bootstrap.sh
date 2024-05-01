@@ -20,12 +20,13 @@ function doIt() {
   fi
 
   # Symlink the dotfiles to the home directory.
-  stow bash
-  stow editorconfig
-  stow gdb
-  stow git
-  stow tmux
-  stow vim
+  stow -t ${HOME} bash
+  stow -t ${HOME} editorconfig
+  stow -t ${HOME} gdb
+  stow -t ${HOME} git
+  # stow -t ${HOME} kak
+  stow -t ${HOME} tmux
+  stow -t ${HOME} vim
 
   source ~/.bash_profile;
 
