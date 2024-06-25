@@ -126,7 +126,7 @@
 	insteadOf = https://team.googlesource.com/
 
 [user]
-	signingkey = 3730D56985E528EC
+	signingkey = 07F89EC07E1ED502
 	name = Sam Balana
 	email = sbalana@google.com
 
@@ -193,9 +193,9 @@
 
 [alias]
   amend = commit --amend --no-edit
-  uc = push origin HEAD:refs/for/main%l=Commit-Queue+1,publish-comments
   up = push origin HEAD:refs/for/main%publish-comments
-  autosubmit = push origin HEAD:refs/for/main%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments
+  uc = push origin HEAD:refs/for/main%l=Commit-Queue+1,publish-comments
+  uca = push origin HEAD:refs/for/main%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments
 [url "sso://fuchsia/"]
 	insteadOf = https://fuchsia.googlesource.com/
 	insteadOf = https://fuchsia-review.googlesource.com/

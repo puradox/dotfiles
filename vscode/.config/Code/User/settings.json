@@ -144,7 +144,7 @@
     "python.venvFolders": [
         "${workspaceFolder}/venv",
     ],
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
 
     //
     // Java
