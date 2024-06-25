@@ -88,7 +88,7 @@
 
 [mergetool "vimdiff"]
 
-  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [push]
 
@@ -126,7 +126,7 @@
 	insteadOf = https://team.googlesource.com/
 
 [user]
-	signingkey = 07F89EC07E1ED502
+	signingkey = 3730D56985E528EC
 	name = Sam Balana
 	email = sbalana@google.com
 
@@ -177,7 +177,7 @@
 [url "sso://turquoise-internal/"]
 	insteadOf = https://turquoise-internal.googlesource.com/
 [gpg]
-	program = /bin/gpg
+	program = gpg
 [repo]
 	superprojectChoiceExpire = 1657842363
 	superprojectChoice = true

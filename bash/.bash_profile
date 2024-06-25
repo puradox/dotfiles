@@ -69,6 +69,8 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-# Google
-source "$HOME/fuchsia/scripts/fx-env.sh"
-fx-update-path
+# Fuchsia
+source ~/fuchsia/scripts/fx-env.sh
+
+# Rust
+. "$HOME/.cargo/env"

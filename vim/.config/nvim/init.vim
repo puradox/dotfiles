@@ -139,13 +139,13 @@ endif
 
 if getcwd() =~ "/google/src/cloud"
 lua << EOF
-local nvim_lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
 configs.ciderlsp = {
  default_config = {
    cmd = {'/google/bin/releases/cider/ciderlsp/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'};
    filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'python', 'bzl'};
-   root_dir = nvim_lsp.util.root_pattern('BUILD');
+   root_dir = lspconfig.util.root_pattern('BUILD');
    settings = {};
  }
 }

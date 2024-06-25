@@ -24,6 +24,12 @@ alias egrep='egrep --color=auto'
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
 
+if command -v nvim; then
+  # Neovim
+  alias vim="nvim"
+  alias vi="nvim"
+fi
+
 if [[ $PLATFORM == "Darwin" ]]; then
   # Get macOS Software Updates, and update installed Homebrew, npm, and their installed packages
   alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g;'
@@ -50,7 +56,6 @@ if [[ $PLATFORM == "Darwin" ]]; then
   # Lock the screen (when going AFK)
   alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
-
 
 # Image viewer
 alias memes='sxiv -a -b -s f -S 60 $HOME/Downloads/memes/* &'

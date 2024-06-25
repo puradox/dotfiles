@@ -5,26 +5,39 @@
 
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.renderSideBySide": true,
-    "editor.fontFamily": "FiraCode Nerd Font Mono, monospace",
-    "editor.renderWhitespace": "none",
-    "editor.suggestSelection": "first",
-    "files.autoSave": "afterDelay",
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
-    },
 
-    "editor.tabSize": 4,
     "editor.cursorStyle": "line",
+    "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.insertSpaces": false,
     "editor.lineNumbers": "on",
+    "editor.renderWhitespace": "none",
+    "editor.suggestSelection": "first",
+    "editor.tabSize": 4,
     "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
     "editor.wordWrap": "off",
+
+    "files.autoSave": "onFocusChange",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+
+    "window.menuBarVisibility": "toggle",
 
     //
     // Terminal
     //
 
-    "terminal.integrated.shellArgs.linux": ["-l"],
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": ["-l"]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
 
     //
     // Vim
@@ -89,7 +102,7 @@
             "commands": [
                 "references-view.findImplementations"
             ]
-        }
+        },
     ],
     "vim.handleKeys": {
         "<C-p>": false,
@@ -99,8 +112,10 @@
     // Git
     //
 
-    "git.confirmSync": false,
     "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.detectSubmodules": false,
+    "git.rebaseWhenSync": true,
     "gitlens.codeLens.enabled": false,
 
     //
@@ -114,8 +129,8 @@
     // Rust
     //
 
-    "rust-analyzer.lens.run": false,
-    "rust-analyzer.lens.debug": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
 
     //
     // Python
@@ -142,6 +157,38 @@
     },
 
     //
+    // Markdown
+    //
+
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
+
+    //
+    // Gn
+    //
+
+    "[gn]": {
+        "editor.defaultFormatter": "MarshallOfSound.gn-format"
+    },
+
+    //
+    // C++
+    //
+
+    "C_Cpp.intelliSenseEngine": "disabled",
+
+    //
+    // Google
+    //
+    "[bcl]": {
+        "editor.defaultFormatter": "cider-team.vscode-ciderlsp"
+    },
+    "[starlark]": {
+        "editor.defaultFormatter": "BazelBuild.vscode-bazel"
+    },
+
+    //
     // Spelling
     //
 
@@ -160,6 +207,7 @@
         "datagram",
         "datagrams",
         "dgram",
+        "dtim",
         "dut",
         "dut's",
         "duts",
@@ -170,6 +218,7 @@
         "gorountine",
         "gvisor",
         "highperf",
+        "hostapd",
         "icmp",
         "icmpv",
         "iface",
@@ -186,6 +235,7 @@
         "ipv",
         "ispeed",
         "itertools",
+        "iwconfig",
         "ixanvl",
         "kbaud",
         "killall",
@@ -197,6 +247,7 @@
         "mdns",
         "minicircuits",
         "mitchellh",
+        "Mobly",
         "mreq",
         "mreqn",
         "mroute",
@@ -218,7 +269,10 @@
         "pdus",
         "posix",
         "qemu",
+        "radvd",
+        "rdnss",
         "repr",
+        "retrans",
         "routable",
         "rsync",
         "run",
@@ -227,6 +281,7 @@
         "smcroute",
         "so",
         "socklen",
+        "SSID",
         "stdbuf",
         "structs",
         "subcommand",
@@ -245,31 +300,23 @@
         "updated at nanos",
         "updated",
         "vectorised",
+        "wlan"
     ],
-    "window.menuBarVisibility": "toggle",
-    "editor.fontSize": 13,
-    "[bcl]": {
-        "editor.defaultFormatter": "cider-team.vscode-ciderlsp"
-    },
-    "explorer.confirmDelete": false,
-    "[starlark]": {
-        "editor.defaultFormatter": "BazelBuild.vscode-bazel"
-    },
-    "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true
-    },
-    "git.rebaseWhenSync": true,
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.inlayHints.chainingHints.enable": false,
-    "editor.rulers": [
-        88,
-        100
+    "gitlens.autolinks": [
+        {
+            "prefix": "Change-Id: ",
+            "url": "https://fxrev.dev/<num>",
+            "alphanumeric": true
+        },
+        {
+            "prefix": "fxb/",
+            "url": "https://fxrev.dev/<num>",
+            "alphanumeric": true
+        },
+        {
+            "prefix": "b/",
+            "url": "https://b.corp.google.com/issues/<num>",
+            "alphanumeric": true
+        },
     ],
-    "git.detectSubmodules": false,
-    "rust-analyzer.inlayHints.typeHints.enable": false,
-    "C_Cpp.intelliSenseEngine": "disabled",
-    "vim.textwidth": 88,
 }
