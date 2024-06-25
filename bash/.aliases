@@ -24,7 +24,7 @@ alias egrep='egrep --color=auto'
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
 
-if command -v nvim; then
+if [[ `command -v nvim` ]]; then
   # Neovim
   alias vim="nvim"
   alias vi="nvim"

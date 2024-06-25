@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Lower key repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
+
 # Install Homebrew
 if ! hash brew 2>/dev/null; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -25,15 +30,16 @@ brew install hg
 brew install bzr
 mkdir $HOME/go
 
+# Desktop utilities
+brew install --cask rectangle # window snapping
+brew install --cask hyperkey  # rebind caps lock
+
 # Install web applications
-brew cask install google-chrome
-brew cask install firefox
+brew install --cask google-chrome
 
 # Install development tools
-brew cask install visual-studio-code
-brew cask install iterm2
-brew cask install slack
-brew cask install insomnia
+brew install --cask visual-studio-code
+brew install --cask wezterm
 
 # Remove outdated versions from the cellar.
 brew cleanup

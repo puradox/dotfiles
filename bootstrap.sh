@@ -27,6 +27,7 @@ function doIt() {
   # stow -t ${HOME} kak
   stow -t ${HOME} tmux
   stow -t ${HOME} vim
+  stow -t ${HOME} vscode
 
   source ~/.bash_profile;
 

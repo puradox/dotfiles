@@ -11,6 +11,9 @@ unset file;
 
 if [[ $PLATFORM == "Darwin" ]]; then
 
+  # Homebrew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
   # Case-insensitive globbing (used in pathname expansion)
   shopt -s nocaseglob;
 
@@ -69,8 +72,10 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-# Fuchsia
-source ~/fuchsia/scripts/fx-env.sh
+if [ -d ~/fuchsia ]; then
+  # Fuchsia
+  source ~/fuchsia/scripts/fx-env.sh
+fi
 
 # Rust
 . "$HOME/.cargo/env"

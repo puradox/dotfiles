@@ -3,7 +3,7 @@ Sam’s dotfiles
  > My personal modifications to Mathias Bynens' [dotfiles](https://github.com/mathiasbynens/dotfiles)
 
 ## Notable changes
- - I'm too poor to afford a Mac, so I added support for Ubuntu.
+ - Supports both Mac and Linux
  - Striped down the amount of *'sensible'* defaults to only the bare essentials
  - Install and update right from the get-go
  - :innocent: spaces > tabs
