@@ -7,7 +7,7 @@
     "diffEditor.renderSideBySide": true,
 
     "editor.cursorStyle": "line",
-    "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "FiraCode Nerd Font, Menlo, Monaco, Courier New, monospace",
     "editor.insertSpaces": false,
     "editor.lineNumbers": "on",
     "editor.renderWhitespace": "none",
@@ -318,5 +318,10 @@
             "url": "https://b.corp.google.com/issues/<num>",
             "alphanumeric": true
         },
+    ],
+    "cmake.showOptionsMovedNotification": false,
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
     ],
 }
