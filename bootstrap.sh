@@ -14,6 +14,7 @@ function doIt() {
   # Install the platform dependant things
   if [[ $PLATFORM == "Linux" ]]; then
     sudo bash bootstrap-linux.sh
+    stow -t ${HOME} hyprland
   elif [[ $PLATFORM == "Darwin" ]]; then
     ./bootstrap-macos.sh
     stow -t ${HOME} iterm2
