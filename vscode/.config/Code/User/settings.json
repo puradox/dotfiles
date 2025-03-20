@@ -21,10 +21,15 @@
         "**/.classpath": true,
         "**/.project": true,
         "**/.settings": true,
-        "**/.factorypath": true
+        "**/.factorypath": true,
+        "bazel-workspace": true
     },
 
     "window.menuBarVisibility": "toggle",
+
+    "search.exclude": {
+        "bazel-workspace": true
+    },
 
     //
     // Terminal
@@ -324,4 +329,5 @@
         "workbench.action.tasks.configureTaskRunner",
         "workbench.action.tasks.runTask"
     ],
+    "geminicodeassist.project": "fuchsia-eng-ai",
 }

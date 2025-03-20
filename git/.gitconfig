@@ -81,6 +81,7 @@
   log = true
   tool = vimdiff
 	renamelimit = 28074
+	conflictstyle = diff3
 
 [mergetool]
 
@@ -126,7 +127,7 @@
 	insteadOf = https://team.googlesource.com/
 
 [user]
-	signingkey = 07F89EC07E1ED502
+	signingkey = 0F981B05DFBCAA8C
 	name = Sam Balana
 	email = sbalana@google.com
 
@@ -193,9 +194,9 @@
 
 [alias]
   amend = commit --amend --no-edit
-  up = push origin HEAD:refs/for/main%publish-comments
-  uc = push origin HEAD:refs/for/main%l=Commit-Queue+1,publish-comments
-  uca = push origin HEAD:refs/for/main%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments
+  up = "!git push origin HEAD:refs/for/${1:-main}%publish-comments"
+  uc = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,publish-comments"
+  uca = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments"
 [url "sso://fuchsia/"]
 	insteadOf = https://fuchsia.googlesource.com/
 	insteadOf = https://fuchsia-review.googlesource.com/

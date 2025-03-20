@@ -16,6 +16,10 @@ brew update
 # Upgrade any already-installed formulae.
 brew upgrade
 
+# Install Python
+brew install pipx
+pipx ensurepath
+
 # Install Neovim
 brew install neovim
 

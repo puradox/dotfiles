@@ -15,6 +15,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Fuchsia
 export PATH="$HOME/Dev/infra/fuchsia/prebuilt/tools:$PATH"
 export PATH="$HOME/fuchsia/.jiri_root/bin:$PATH"
+export PATH="$HOME/fuchsia/scripts/git:$PATH"
 export PATH="$HOME/.fuchsia/foxtrot:$PATH"
 export PATH="$HOME/depot_tools:$PATH"
 export PATH="$HOME/fuchsia-sdk/bin:$PATH"

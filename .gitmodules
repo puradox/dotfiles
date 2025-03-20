@@ -1,0 +1,9 @@
+[submodule "kak/.config/kak/plugins/plug.kak"]
+	path = kak/.config/kak/plugins/plug.kak
+	url = https://github.com/andreyorst/plug.kak.git
+[submodule "kak/.config/kak/plugins/smarttab.kak"]
+	path = kak/.config/kak/plugins/smarttab.kak
+	url = https://github.com/andreyorst/smarttab.kak.git
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

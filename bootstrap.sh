@@ -16,7 +16,7 @@ function doIt() {
     sudo bash bootstrap-linux.sh
   elif [[ $PLATFORM == "Darwin" ]]; then
     ./bootstrap-macos.sh
-    stow iterm2
+    stow -t ${HOME} iterm2
   fi
 
   # Symlink the dotfiles to the home directory.
@@ -24,15 +24,17 @@ function doIt() {
   stow -t ${HOME} editorconfig
   stow -t ${HOME} gdb
   stow -t ${HOME} git
-  # stow -t ${HOME} kak
+  #stow -t ${HOME} kak
   stow -t ${HOME} tmux
   stow -t ${HOME} vim
   stow -t ${HOME} vscode
 
   source ~/.bash_profile;
 
+  # Install Python packages
+  pipx install rofimoji
+
   # Install Tmux Plugin Manager
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   ~/.tmux/plugins/tpm/bin/install_plugins
 
   # Install vim-plug
@@ -41,14 +43,14 @@ function doIt() {
   nvim +PlugInstall +qall
 
   # Install and load nvm (Node.js version manager)
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  #export NVM_DIR="$HOME/.nvm"
+  #[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
   # Install the latest version of node
-  nvm install node
-  nvm use node
-  nvm alias default node
+  #nvm install node
+  #nvm use node
+  #nvm alias default node
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then

@@ -79,3 +79,6 @@ fi
 
 # Rust
 . "$HOME/.cargo/env"
+
+# Python
+eval "$(register-python-argcomplete pipx)"

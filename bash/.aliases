@@ -106,6 +106,7 @@ alias fssh='/google/src/head/depot/google3/third_party/unsupported_toolchains/fu
 
 alias bluze=/google/bin/releases/blueprint-bluze/public/bluze
 alias copybara=/google/bin/releases/copybara/public/copybara/copybara
+alias cider-v=java/com/google/devtools/cider/frontend/ciderv/ciderv.sh
 
 # nnn with preview plugin autoloaded
 alias n='nnn -P p'
