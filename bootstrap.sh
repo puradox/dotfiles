@@ -25,7 +25,7 @@ function doIt() {
   stow -t ${HOME} editorconfig
   stow -t ${HOME} gdb
   stow -t ${HOME} git
-  #stow -t ${HOME} kak
+  stow -t ${HOME} starship
   stow -t ${HOME} tmux
   stow -t ${HOME} vim
   stow -t ${HOME} vscode
