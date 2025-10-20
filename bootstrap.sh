@@ -29,15 +29,19 @@ function doIt() {
   stow -t ${HOME} tmux
   stow -t ${HOME} vim
   stow -t ${HOME} vscode
+  stow -t ${HOME} zellij
 
   source ~/.bash_profile;
 
   # Install Rust binaries
   cargo install ripgrep
-  cargo install starship --locked
+  cargo install --locked starship zellij
 
   # Install kitty terminal
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+
+  # Install zellij terminal multiplexer
+  bash <(curl -L https://zellij.dev/launch)
 
   # Install Python packages
   pipx install rofimoji
