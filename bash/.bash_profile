@@ -82,3 +82,6 @@ fi
 
 # Python
 eval "$(register-python-argcomplete pipx)"
+
+# Starship bash prompt
+eval "$(starship init bash)"

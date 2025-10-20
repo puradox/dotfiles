@@ -51,5 +51,3 @@ brew cleanup
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
 source $HOME/.cargo/env
-cargo install ripgrep
-

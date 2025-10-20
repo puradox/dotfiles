@@ -1,9 +1,7 @@
-# Key repeat
-exec xset r rate 200 35
-
-# Display
-exec xrandr --output DP-2 --mode 3840x2160 --auto --pos 0x0
-exec xrandr --output DP-6 --mode 2560x1440 --auto --pos 3840x0 --rotate left --right-of DP-2
+input * {
+  repeat_delay 200
+  repeat_rate 35
+}
 
 # i3 config file (v4)
 #
@@ -24,9 +22,8 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start rofi (a program launcher)
-bindsym $mod+d exec zsh -c "rofi -show drun"
-bindsym $mod+Ctrl+space exec rofimoji --skin-tone medium-light
+# start wofi (a program launcher)
+bindsym $mod+d exec wofi --show drun
 
 # change focus
 bindsym $mod+h focus left
@@ -34,7 +31,7 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you an use the cursor keys:
+# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -78,17 +75,6 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-# Media controls
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -131,7 +117,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -B 'Yes, exit sway' 'swaymsg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -161,11 +147,32 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Google stuff
-exec /usr/share/goobuntu-indicator/goobuntu_indicator.py                   # gLinux indicator
-bindsym $mod+Ctrl+l exec i3lock -color 000000 # lock screen
+exec /usr/share/goobuntu-indicator/goobuntu_indicator.py
 
-# Auto-lock the screen
-exec --no-startup-id env LOCKED_BY_SESSION_IDLE=true xautolock -time 10 -locker i3lock
+# Remap evoluent mouse buttons
+# From discussion on https://github.com/swaywm/sway/issues/3960
+bindsym --input-device=6780:401:Kingsis_Peripherals_Evoluent_VerticalMouse_4 --whole-window BTN_FORWARD exec wtype -k XF86Back
+bindsym --input-device=6780:401:Kingsis_Peripherals_Evoluent_VerticalMouse_4 --whole-window BTN_SIDE exec wtype -k XF86Forward
+
+# Lock the screen
+exec swayidle -w \
+        timeout 300 'swaylock -f -c 000000' \
+        after-resume 'swaymsg "output * power on"' \
+        before-sleep 'swaylock -f -c 000000' \
+        lock 'swaylock -f -c 000000'
+
+bindsym $mod+Ctrl+l exec 'swaylock -f -c 000000'
+
+# Media controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # Authentication agent for VMware
 exec /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
@@ -228,3 +235,15 @@ client.urgent           $base08 $base08 $base00 $base08 $base08
 client.placeholder      $base00 $base00 $base05 $base00 $base00
 client.background       $base07
 
+# Desktop background
+output * background /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png fill
+
+# Automatic monitor management
+# https://github.com/emersion/kanshi/issues/43#issuecomment-531679213
+exec_always pkill kanshi; exec kanshi
+
+# SSH key
+exec "ssh-agent -a $SSH_AUTH_SOCK"
+
+# Notification Daemon
+exec_always pkill dunst; exec dunst

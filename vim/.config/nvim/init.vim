@@ -58,6 +58,7 @@ Plug 'scrooloose/nerdtree'            " file browser
 Plug 'tpope/vim-fugitive'             " git wrapper
 Plug 'tpope/vim-repeat'               " enable repeating supported plugins
 Plug 'tpope/vim-surround'             " surround in braces
+Plug 'dstein64/vim-startuptime'       " view startup timing
 
 " Disabled
 "Plug 'airblade/vim-gitgutter'        " git line diff
@@ -116,23 +117,17 @@ nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gc <cmd>lua vim.lsp.buf.rename()<CR>
 
 lua << EOF
-local lspconfig = require 'lspconfig'
-
-lspconfig.rust_analyzer.setup{}
-lspconfig.gopls.setup{
-  root_dir = lspconfig.util.root_pattern('go.mod', '.git', 'BUILD.gn');
-}
+vim.lsp.enable("rust_analyzer")
 EOF
 
 if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
 lua << EOF
-local lspconfig = require 'lspconfig'
 local fuchsia_dir = os.getenv("FUCHSIA_DIR")
 
 if fuchsia_dir ~= nil then
-  lspconfig.clangd.setup{
-    cmd = { fuchsia_dir .. "/prebuilt/third_party/clang/linux-x64/bin/clangd", "--background-index" }
-  }
+  vim.lsp.config('clangd', {
+    cmd = { fuchsia_dir .. "/prebuilt/third_party/clang/linux-x64/bin/clangd", "--background-index" },
+  })
 end
 EOF
 endif
@@ -143,10 +138,10 @@ local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
 configs.ciderlsp = {
  default_config = {
-   cmd = {'/google/bin/releases/cider/ciderlsp/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'};
-   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'python', 'bzl'};
-   root_dir = lspconfig.util.root_pattern('BUILD');
-   settings = {};
+   cmd = {'/google/bin/releases/cider/ciderlsp/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'},
+   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'python', 'bzl'},
+   root_dir = lspconfig.util.root_pattern('BUILD'),
+   settings = {},
  }
 }
 

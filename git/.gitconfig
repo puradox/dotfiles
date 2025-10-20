@@ -50,7 +50,7 @@
 [commit]
 
   # https://help.github.com/articles/signing-commits-using-gpg/
-  gpgsign = true
+	gpgsign = false
 
 [diff]
 
@@ -197,6 +197,7 @@
   up = "!git push origin HEAD:refs/for/${1:-main}%publish-comments"
   uc = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,publish-comments"
   uca = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments"
+  fixup = "!git commit -m \"${1:-fix}\" && git stash && (git rebase -i HEAD~10; git stash pop)"
 [url "sso://fuchsia/"]
 	insteadOf = https://fuchsia.googlesource.com/
 	insteadOf = https://fuchsia-review.googlesource.com/

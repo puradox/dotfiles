@@ -101,6 +101,7 @@ alias watch-format='
 
 alias fconfig='/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk/tools/x64/fconfig'
 alias fssh='/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk/tools/x64/fssh'
+alias gemini='/google/bin/releases/gemini-cli/tools/gemini'
 
 # Google3
 

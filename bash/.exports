@@ -38,6 +38,10 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 
 # Fuchsia
 export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
+# Google
+export GEMINI_API_KEY=TODO
 
 # CastOS
 export USE_GOMA=1

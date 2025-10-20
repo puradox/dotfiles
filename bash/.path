@@ -18,9 +18,9 @@ export PATH="$HOME/fuchsia/.jiri_root/bin:$PATH"
 export PATH="$HOME/fuchsia/scripts/git:$PATH"
 export PATH="$HOME/.fuchsia/foxtrot:$PATH"
 export PATH="$HOME/depot_tools:$PATH"
-export PATH="$HOME/fuchsia-sdk/bin:$PATH"
-export PATH="$HOME/fuchsia-sdk/tools/x64:$PATH"
-export PATH="$HOME/fuchsia-sdk/tools:$PATH"
+
+# Sway
+export PATH="/usr/libexec/imv:$PATH"
 
 # Mac
 if [[ $PLATFORM == "Darwin" ]]; then

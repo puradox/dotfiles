@@ -32,6 +32,13 @@ function doIt() {
 
   source ~/.bash_profile;
 
+  # Install Rust binaries
+  cargo install ripgrep
+  cargo install starship --locked
+
+  # Install kitty terminal
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+
   # Install Python packages
   pipx install rofimoji
 

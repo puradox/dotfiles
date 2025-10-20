@@ -1,0 +1,13 @@
+# Add the 'build' type for Fuchsia build files.
+--type-add
+build:*.{gn,gni,bazel,bzl}*
+
+# Search hidden files / directories (e.g. dotfiles) by default
+--hidden
+
+# Using glob patterns to include/exclude files or folders
+--glob=!.git/*
+--glob=!third_party/
+
+# Because who cares about case!?
+--smart-case

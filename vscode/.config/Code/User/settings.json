@@ -109,6 +109,27 @@
             ]
         },
     ],
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [ "g", "s" ],
+            "commands": [
+                "git.stageSelectedRanges",
+                {
+                    "command": "vim.remap",
+                    "args": {
+                        "after": ["<Esc>"],
+                    },
+                }
+            ],
+        },
+        {
+            "before": [ "g", "u" ],
+            "after": ["<Esc>"],
+            "commands": [
+                "git.unstageSelectedRanges",
+            ],
+        },
+    ],
     "vim.handleKeys": {
         "<C-p>": false,
     },
@@ -149,7 +170,6 @@
     "python.venvFolders": [
         "${workspaceFolder}/venv",
     ],
-    "python.formatting.provider": "black",
 
     //
     // Java
@@ -166,7 +186,7 @@
     //
 
     "[markdown]": {
-        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
     },
 
     //
@@ -174,7 +194,7 @@
     //
 
     "[gn]": {
-        "editor.defaultFormatter": "MarshallOfSound.gn-format"
+        "editor.defaultFormatter": "msedge-dev.gnls"
     },
 
     //
@@ -184,7 +204,7 @@
     "C_Cpp.intelliSenseEngine": "disabled",
 
     //
-    // Google
+    // Google / Fuchsia
     //
     "[bcl]": {
         "editor.defaultFormatter": "cider-team.vscode-ciderlsp"
@@ -192,6 +212,11 @@
     "[starlark]": {
         "editor.defaultFormatter": "BazelBuild.vscode-bazel"
     },
+    "clangd.path": "~/fuchsia/prebuilt/third_party/clang/linux-x64/bin/clangd",
+    "clangd.arguments": [
+        "--clang-tidy",
+        "--background-index"
+    ],
 
     //
     // Spelling
@@ -324,10 +349,27 @@
             "alphanumeric": true
         },
     ],
-    "cmake.showOptionsMovedNotification": false,
     "cmake.pinnedCommands": [
         "workbench.action.tasks.configureTaskRunner",
         "workbench.action.tasks.runTask"
     ],
     "geminicodeassist.project": "fuchsia-eng-ai",
+    "geminicodeassist.recitation.maxCitedLength": 0,
+    "rust-analyzer.cargo.cfgs": [
+        "debug_assertions",
+        "miri",
+        "target_os=fuchsia",
+        "fuchsia_api_level_at_least=HEAD",
+        "fuchsia_api_level_at_least=25",
+        "fuchsia_api_level_at_least=24",
+        "fuchsia_api_level_at_least=23",
+        "fuchsia_api_level_at_least=22",
+        "fuchsia_api_level_at_least=21",
+        "fuchsia_api_level_at_least=20",
+        "fuchsia_api_level_at_least=19",
+        "fuchsia_api_level_at_least=18",
+        "fuchsia_api_level_at_least=26",
+        "fuchsia_api_level_at_least=27",
+        "fuchsia_api_level_at_least=28"
+    ],
 }
