@@ -29,7 +29,7 @@ export PKG_CONFIG_PATH="/usr/local/share/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib64/:$LD_LIBRARY_PATH"
 
-{{- if eq .chezmoi.os "darwin" }}
+{{- if .isMac }}
 # Mac
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/homebrew/bin:$PATH"

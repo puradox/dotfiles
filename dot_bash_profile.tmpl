@@ -41,7 +41,7 @@ export FZF_DEFAULT_COMMAND='rg --files --glob "!{.git,node_modules,bower_compone
 # Start ssh-agent
 SSH_ENV="$HOME/.ssh/env"
 
-{{ if eq .chezmoi.os "darwin" -}}
+{{- if .isMac }}
 
   function start_agent {
     echo "Initialising new SSH agent..."
@@ -63,7 +63,7 @@ SSH_ENV="$HOME/.ssh/env"
     start_agent;
   fi
 
-{{ end -}}
+{{- end }}
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"

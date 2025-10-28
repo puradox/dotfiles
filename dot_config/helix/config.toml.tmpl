@@ -1,0 +1,16 @@
+theme = "base16_terminal"
+
+[editor]
+default-yank-register = "+"
+true-color = true
+
+{{- if .isLinux }}
+clipboard-provider = "wayland"
+{{- else if .isMac }}
+clipboard-provider = "pasteboard"
+{{- end }}
+
+[editor.file-picker]
+hidden = false
+max-depth = 10
+

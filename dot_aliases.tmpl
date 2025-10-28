@@ -30,7 +30,7 @@ if [[ `command -v nvim` ]]; then
   alias vi="nvim"
 fi
 
-{{- if eq .chezmoi.os "darwin" }}
+{{- if .isMac }}
   # Get macOS Software Updates, and update installed Homebrew, npm, and their installed packages
   alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g;'
 

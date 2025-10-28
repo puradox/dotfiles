@@ -1,0 +1,34 @@
+
+{{- $isMac := false }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $isMac = true }}
+{{- end}}
+
+{{- $isLinux := false }}
+{{- if eq .chezmoi.os "linux" }}
+{{- $isLinux = true }}
+{{- end}}
+
+{{- $isGoogle := false }}
+{{- if or (contains "corp.google.com" .chezmoi.fqdnHostname) (contains "c.googlers.com" .chezmoi.fqdnHostname) }}
+{{- $isGoogle = true }}
+{{- end}}
+
+[data]
+isMac = {{ $isMac }}
+isLinux = {{ $isLinux }}
+isGoogle = {{ $isGoogle }}
+isGoogleLinux = {{ and $isGoogle $isLinux }}
+
+[edit]
+command = "hx"
+
+[diff]
+pager = "delta"
+
+[merge]
+command = "bash"
+args = [
+    "-c",
+    "cp {{"{{ .Target }} {{ .Target }}.base && code --new-window --wait --merge {{ .Destination }} {{ .Target }} {{ .Target }}.base {{ .Source }}"}}",
+]

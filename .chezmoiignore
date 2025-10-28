@@ -1,7 +1,7 @@
 LICENSE
 README.md
 
-{{- if ne .chezmoi.os "linux" }}
+{{- if .isLinux }}
 
 .inputrc
 .Xresources
@@ -14,11 +14,12 @@ README.md
 .config/wallpaper
 .config/starship.toml
 
-{{- if not contains "google" .chezmoi.fqdnHostname }}
+{{- end }}
+
+{{- if .isGoogleLinux }}
 .config/input-remapper-2
 {{- end }}
 
-{{- end }}
 
 # Disabled
 .inputrc
