@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+# Ask for the administrator password upfront
+sudo -v
+
+{{- if eq .chezmoi.os "linux" }}
+
+  # Install Python
+  sudo apt update
+  sudo apt install pipx
+  pipx ensurepath
+
+  # Install Python packages
+  pipx install rofimoji
+
+  # Install Go
+  sudo apt install golang -y
+
+  {{/*- Disabled
+  # Install Neovim
+  if ! hash nvim 2>/dev/null; then
+    sudo apt update
+    sudo apt install neovim python3-dev python3-pip python3-neovim xsel
+
+    # Set Neovim to default editor
+    sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo update-alternatives --auto vi
+    sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo update-alternatives --auto vim
+    sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+    sudo update-alternatives --auto editor
+  fi
+  */}}
+
+  # Install other useful binaries.
+  sudo apt install git
+  sudo apt install git-delta
+  sudo apt install stow
+  sudo apt install tmux
+  sudo apt install wget
+  sudo apt install fd-find
+  sudo apt install xdotool
+
+  # Install kitty terminal
+  mkdir -p $HOME/.local/stow
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    dest=$HOME/.local/stow
+  stow -v -t $HOME/.local -d $HOME/.local/stow kitty.app
+  xdg-mime default org.kde.dolphin.desktop inode/directory
+
+  {{- if contains "google" .chezmoi.fqdnHostname }}
+
+    #
+    # Install gLinux specific packages and configuration.
+    #
+
+    # Required for using Bazel build servers
+    sudo apt install google-cloud-cli
+
+  {{- end }}
+
+{{- else if eq .chezmoi.os "darwin" }}
+
+  # Lower key repeat
+  defaults write -g ApplePressAndHoldEnabled -bool false
+  defaults write -g InitialKeyRepeat -int 15
+  defaults write -g KeyRepeat -int 2
+
+  # Install Homebrew
+  if ! hash brew 2>/dev/null; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  # Make sure we’re using the latest Homebrew.
+  brew update
+
+  # Upgrade any already-installed formulae.
+  brew upgrade
+
+  # Install Python
+  brew install pipx
+  pipx ensurepath
+
+  # Install Neovim
+  brew install neovim
+
+  # Install other useful binaries.
+  brew install git
+  brew install git-delta
+  brew install stow
+  brew install tmux
+
+  # Install the Go programming language
+  brew install go
+  brew install hg
+  brew install bzr
+  mkdir $HOME/go
+
+  # Desktop utilities
+  brew install --cask rectangle # window snapping
+  brew install --cask hyperkey  # rebind caps lock
+
+  # Install web applications
+  brew install --cask google-chrome
+
+  # Install development tools
+  brew install --cask visual-studio-code
+  brew install --cask wezterm
+  brew install --cask kitty
+
+  # Remove outdated versions from the cellar.
+  brew cleanup
+
+{{- end }}
+
+source ~/.bash_profile;
+
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
+source $HOME/.cargo/env
+
+# Install Rust binaries
+cargo install ripgrep
+cargo install --locked starship
+cargo install --locked zellij
+
+{{/*- Disabled
+# Install vim-plug
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+nvim +PlugInstall +qall
+*/}}

@@ -1,0 +1,30 @@
+LICENSE
+README.md
+
+{{- if ne .chezmoi.os "linux" }}
+
+.inputrc
+.Xresources
+.xsessionrc
+
+.config/environment.d
+.config/kanshi
+.config/sway
+.config/systemd
+.config/wallpaper
+.config/starship.toml
+
+{{- if not contains "google" .chezmoi.fqdnHostname }}
+.config/input-remapper-2
+{{- end }}
+
+{{- end }}
+
+# Disabled
+.inputrc
+.Xresources
+.xsessionrc
+
+.config/hypr
+.config/i3
+.config/nvim

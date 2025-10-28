@@ -1,0 +1,218 @@
+[apply]
+
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
+
+[core]
+
+  # Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore
+
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error
+  # [default] trailing-space: looks for spaces at the end of a line
+  # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+  # Make `git rebase` safer on macOS
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
+
+  # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+  # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
+
+  # Betters diffs.
+  pager = delta
+
+[interactive]
+
+  diffFilter = delta --color-only
+
+[delta]
+
+  # Use n and N to move between diff sections.
+  navigate = true    
+
+  side-by-side = true
+
+[merge]
+
+  conflictStyle = zdiff3
+
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
+
+[color]
+
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+  ui = auto
+
+
+[color "branch"]
+
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+
+  meta = yellow bold
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
+
+[color "status"]
+
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[commit]
+
+  # https://help.github.com/articles/signing-commits-using-gpg/
+	gpgsign = false
+
+[diff]
+
+  # Detect copies as well as renames
+  renames = copies
+  # Enable an experimental heuristic that shifts the hunk boundary in an
+  # attempt to make the resulting patch easier to read.
+  indentHeuristic = true
+  tool = vimdif
+
+[diff "bin"]
+
+  # Use `hexdump` to diff binary files
+  textconv = hexdump -v -C
+
+[difftool]
+
+  prompt = false
+
+[help]
+
+  # Automatically correct and execute mistyped commands
+  autocorrect = 1
+
+[mergetool]
+
+  prompt = true
+
+[mergetool "vimdiff"]
+
+  cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[push]
+
+  # Use the Git 1.x.x default to avoid errors on machines with old Git
+  # installations. To use `simple` instead, add this to your `~/.extra` file:
+  # `git config --global push.default simple`. See http://git.io/mMah-w.
+  default = matching
+  # Make `git push` push relevant annotated tags when pushing branches out.
+  followTags = true
+
+# URL shorthands
+
+[url "git@github.com:"]
+
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+  insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+  insteadOf = "gist:"
+
+[url "persistent-https://team.git.corp.google.com/"]
+
+	insteadOf = https://team.googlesource.com/
+
+[user]
+	signingkey = 0F981B05DFBCAA8C
+	name = Sam Balana
+	email = sbalana@google.com
+
+[http]
+	cookiefile = /usr/local/google/home/sbalana/.gitcookies
+
+[credential]
+	helper = corpsso
+[url "persistent-https://eureka-internal.git.corp.google.com/"]
+	insteadOf = https://eureka-internal.googlesource.com/
+	pushInsteadOf = https://eureka-internal.googlesource.com/
+[url "persistent-https://eureka-internal-review.git.corp.google.com/"]
+	insteadOf = https://eureka-internal-review.googlesource.com/
+[url "persistent-https://widevine-partner.git.corp.google.com/"]
+	insteadOf = https://widevine-partner.googlesource.com/
+[url "persistent-https://eureka-partner.git.corp.google.com/"]
+	insteadOf = https://eureka-partner.googlesource.com/
+[url "persistent-https://chrome-internal.git.corp.google.com/"]
+	insteadOf = https://chrome-internal.googlesource.com/
+[url "persistent-https://libassistant-internal.git.corp.google.com/"]
+	insteadOf = https://libassistant-internal.googlesource.com/
+[url "persistent-https://nest-internal.git.corp.google.com/"]
+	insteadOf = https://nest-internal.googlesource.com/
+	pushInsteadOf = https://nest-internal.googlesource.com/
+[url "persistent-https://nest-internal-review.git.corp.google.com/"]
+	insteadOf = https://nest-internal-review.googlesource.com/
+[url "persistent-https://nest-camera-internal.git.corp.google.com/"]
+	insteadOf = https://nest-camera-internal.googlesource.com/
+	pushInsteadOf = https://nest-camera-internal.googlesource.com/
+[url "persistent-https://nest-camera-internal-review.git.corp.google.com/"]
+	insteadOf = https://nest-camera-internal-review.googlesource.com/
+[pull]
+	rebase = true
+[url "persistent-https://github.git.corp.google.com/"]
+	insteadOf = https://github.googlesource.com/
+[url "sso://android/"]
+	insteadOf = https://android.googlesource.com/
+[url "sso://chrome-internal/"]
+	insteadOf = https://chrome-internal.googlesource.com/
+[url "sso://chromium/"]
+	insteadOf = https://chromium.googlesource.com/
+[url "sso://dart/"]
+	insteadOf = https://dart.googlesource.com/
+[url "sso://googleplex-android/"]
+	insteadOf = https://googleplex-android.googlesource.com/
+[url "sso://partner-fuchsia/"]
+	insteadOf = https://partner-fuchsia.googlesource.com/
+[url "sso://turquoise-internal/"]
+	insteadOf = https://turquoise-internal.googlesource.com/
+[gpg]
+	program = gpg
+[repo]
+	superprojectChoiceExpire = 1657842363
+	superprojectChoice = true
+[url "persistent-https://googleplex-android.git.corp.google.com"]
+	insteadof = https://googleplex-android.googlesource.com
+	insteadof = https://googleplex-android-review.googlesource.com
+[url "persistent-https://android.git.corp.google.com"]
+	insteadof = https://android.googlesource.com
+	insteadof = https://android-review.googlesource.com
+[url "persistent-https://partner-android.git.corp.google.com"]
+	insteadof = https://partner-android.googlesource.com
+	insteadof = https://partner-android-review.googlesource.com
+
+[alias]
+  amend = commit --amend --no-edit
+  up = "!git push origin HEAD:refs/for/${1:-main}%publish-comments"
+  uc = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,publish-comments"
+  uca = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments"
+  fixup = "!git commit -m \"${1:-fix}\" && git stash && (git rebase -i HEAD~10; git stash pop)"
+[url "sso://fuchsia/"]
+	insteadOf = https://fuchsia.googlesource.com/
+	insteadOf = https://fuchsia-review.googlesource.com/
+	insteadOf = http://fuchsia.googlesource.com/
+	insteadOf = http://fuchsia-review.googlesource.com/
