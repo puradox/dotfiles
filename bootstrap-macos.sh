@@ -44,10 +44,7 @@ brew install --cask google-chrome
 # Install development tools
 brew install --cask visual-studio-code
 brew install --cask wezterm
+brew install --cask kitty
 
 # Remove outdated versions from the cellar.
 brew cleanup
-
-# Install Rust
-curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
-source $HOME/.cargo/env

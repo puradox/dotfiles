@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 # Ask for the administrator password upfront
 sudo -v
@@ -14,38 +15,34 @@ function doIt() {
   # Install the platform dependant things
   if [[ $PLATFORM == "Linux" ]]; then
     sudo bash bootstrap-linux.sh
-    stow -t ${HOME} hyprland
+    stow -v -t ${HOME} hyprland
+    stow -v -t ${HOME} kanshi
+    stow -v -t ${HOME} kitty
+    stow -v -t ${HOME} starship
+    stow -v -t ${HOME} sway
+    stow -v -t ${HOME} zellij
   elif [[ $PLATFORM == "Darwin" ]]; then
     ./bootstrap-macos.sh
-    stow -t ${HOME} iterm2
+    stow -v -t ${HOME} iterm2
   fi
 
   # Symlink the dotfiles to the home directory.
-  stow -t ${HOME} bash
-  stow -t ${HOME} editorconfig
-  stow -t ${HOME} gdb
-  stow -t ${HOME} git
-  stow -t ${HOME} kitty
-  stow -t ${HOME} starship
-  stow -t ${HOME} tmux
-  stow -t ${HOME} vim
-  stow -t ${HOME} vscode
-  stow -t ${HOME} zellij
+  stow -v -t ${HOME} bash
+  stow -v -t ${HOME} editorconfig
+  stow -v -t ${HOME} gdb
+  stow -v -t ${HOME} git
+  stow -v -t ${HOME} vim
+  stow -v -t ${HOME} vscode
 
   source ~/.bash_profile;
+
+  # Install Rust
+  curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
+  source $HOME/.cargo/env
 
   # Install Rust binaries
   cargo install ripgrep
   cargo install --locked starship zellij
-
-  # Install kitty terminal
-  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-
-  # Install zellij terminal multiplexer
-  bash <(curl -L https://zellij.dev/launch)
-
-  # Install Python packages
-  pipx install rofimoji
 
   # Install vim-plug
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

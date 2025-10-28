@@ -1,0 +1,6 @@
+{
+    "version": "2.1.1",
+    "autoload": {
+        "Kingsis Peripherals Evoluent VerticalMouse 4": "Fix-buttons"
+    }
+}

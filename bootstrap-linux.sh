@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
+set -x
 
 # Install Python
 sudo apt update
 sudo apt install pipx
 pipx ensurepath
+
+# Install Python packages
+pipx install rofimoji
 
 # Install Neovim
 if ! hash nvim 2>/dev/null; then
@@ -27,6 +31,15 @@ sudo apt install wget
 sudo apt install fd-find
 sudo apt install xdotool
 
-# Install Rust
-curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path
-source $HOME/.cargo/env
+# Install kitty terminal
+mkdir -p $HOME/.local/stow
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+  dest=$HOME/.local/stow
+stow -v -t $HOME/.local -d $HOME/.local/stow kitty.app
+xdg-mime default org.kde.dolphin.desktop inode/directory
+
+# Install gLinux-specific packages and config
+if [[ `uname -n` =~ corp.google.com|c.googlers.com ]]; then
+  sudo bash bootstrap-glinux.sh
+fi
+
