@@ -47,23 +47,10 @@ function doIt() {
   # Install Python packages
   pipx install rofimoji
 
-  # Install Tmux Plugin Manager
-  ~/.tmux/plugins/tpm/bin/install_plugins
-
   # Install vim-plug
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   nvim +PlugInstall +qall
-
-  # Install and load nvm (Node.js version manager)
-  #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-  #export NVM_DIR="$HOME/.nvm"
-  #[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-  # Install the latest version of node
-  #nvm install node
-  #nvm use node
-  #nvm alias default node
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
