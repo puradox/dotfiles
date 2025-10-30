@@ -1,7 +1,7 @@
 LICENSE
 README.md
 
-{{- if .isLinux }}
+{{- if not .isLinux }}
 
 .inputrc
 .Xresources
@@ -16,7 +16,7 @@ README.md
 
 {{- end }}
 
-{{- if .isGoogleLinux }}
+{{- if not .isGoogleLinux }}
 .config/input-remapper-2
 {{- end }}
 

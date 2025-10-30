@@ -12,12 +12,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Node.js
 export PATH="$HOME/.npm-global/bin:$PATH"
 
-# Fuchsia
-export PATH="$HOME/Dev/infra/fuchsia/prebuilt/tools:$PATH"
-export PATH="$HOME/fuchsia/.jiri_root/bin:$PATH"
-export PATH="$HOME/fuchsia/scripts/git:$PATH"
-export PATH="$HOME/.fuchsia/foxtrot:$PATH"
-export PATH="$HOME/depot_tools:$PATH"
+{{- if .isLinux }}
 
 # Sway
 export PATH="/usr/local/bin:$PATH"
@@ -29,8 +24,19 @@ export PKG_CONFIG_PATH="/usr/local/share/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib64/:$LD_LIBRARY_PATH"
 
-{{- if .isMac }}
+{{- if .isGoogle }}
+# Fuchsia
+export PATH="$HOME/Dev/infra/fuchsia/prebuilt/tools:$PATH"
+export PATH="$HOME/fuchsia/.jiri_root/bin:$PATH"
+export PATH="$HOME/fuchsia/scripts/git:$PATH"
+export PATH="$HOME/.fuchsia/foxtrot:$PATH"
+export PATH="$HOME/depot_tools:$PATH"
+{{- end }}
+
+{{- else if .isMac }}
+
 # Mac
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/homebrew/bin:$PATH"
+
 {{- end }}

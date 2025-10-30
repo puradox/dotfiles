@@ -35,12 +35,10 @@ sudo -v
   # Install other useful binaries.
   sudo apt install git
   sudo apt install git-delta
-  sudo apt install stow
-  sudo apt install tmux
   sudo apt install wget
   sudo apt install fd-find
-  sudo apt install xdotool
   sudo apt install wl-clipboard
+  sudp apt install fzf
 
   # Install kitty terminal
   mkdir -p $HOME/.local/stow
@@ -78,6 +76,11 @@ sudo -v
   # Upgrade any already-installed formulae.
   brew upgrade
 
+  # Install developer utilities
+  brew install git
+  brew install git-delta
+  brew install fzf
+
   # Install Python
   brew install pipx
   pipx ensurepath
@@ -85,13 +88,7 @@ sudo -v
   # Install Neovim
   brew install neovim
 
-  # Install other useful binaries.
-  brew install git
-  brew install git-delta
-  brew install stow
-  brew install tmux
-
-  # Install the Go programming language
+  # Install Go
   brew install go
   brew install hg
   brew install bzr
@@ -115,6 +112,9 @@ sudo -v
 {{- end }}
 
 source ~/.bash_profile;
+
+# Install Python packages
+pipx install argcomplete
 
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh /dev/stdin -y --no-modify-path

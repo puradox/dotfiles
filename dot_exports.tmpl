@@ -4,10 +4,16 @@
 export EDITOR='hx'
 export SUDO_EDITOR="$HOME/.cargo/bin/hx"
 
+# fzf - Command line fuzzy finder
+export FZF_DEFAULT_COMMAND='rg --files --glob "!{.git,node_modules,bower_components}"'
+
+# ripgrep - faster recursive searching
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 export PYTHONIOENCODING='UTF-8';
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
+# Increase shell history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
@@ -24,8 +30,6 @@ export LESS_TERMCAP_md="${yellow}";
 # https://stackoverflow.com/a/42265848/96656
 export GPG_TTY=$(tty);
 
-export DEV_HOME=$HOME/Dev
-
 # Golang
 export GOPATH=$HOME/go
 
@@ -36,13 +40,6 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export PYTHONPATH="$PYTHONPATH:/usr/lib/llvm-4.0/lib/python2.7/site-packages"
 export PYTHONSTARTUP=$HOME/.pythonrc
 
-# Fuchsia
-export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk
-export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
-
-# CastOS
-export USE_GOMA=1
-
 # nnn
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;d:diffs'
@@ -50,7 +47,15 @@ export NNN_PLUG='f:finder;o:fzopen;p:preview-tui;d:diffs'
 # Helix
 export HELIX_RUNTIME=~/Dev/helix/runtime
 
+{{- if .isLinux }}
 # wayland
 export XDG_SESSION_TYPE=wayland
 export QT_WAYLAND_FORCE_DPI=physical
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+{{- end }}
+
+{{- if .isGoogle }}
+# Fuchsia
+export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk
+export USE_GOMA=1
+{{- end }}

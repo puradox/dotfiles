@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -31,6 +31,9 @@ if [[ `command -v nvim` ]]; then
 fi
 
 {{- if .isMac }}
+  # Only Python 3 is installed by default
+  alias pip='pipx'
+
   # Get macOS Software Updates, and update installed Homebrew, npm, and their installed packages
   alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g;'
 
