@@ -20,6 +20,11 @@ README.md
 .config/input-remapper-2
 {{- end }}
 
+{{- if not .isMac }}
+.zprofile
+.zshrc
+{{- end }}
+
 
 # Disabled
 .inputrc
