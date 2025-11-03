@@ -43,9 +43,10 @@ sudo -v
   # Install kitty terminal
   mkdir -p $HOME/.local/stow
   curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
-    dest=$HOME/.local/stow
+    dest=$HOME/.local/stow launch=n
   stow -v -t $HOME/.local -d $HOME/.local/stow kitty.app
   xdg-mime default org.kde.dolphin.desktop inode/directory
+  sudo apt install kitty-terminfo # Ensure terminfo is available
 
   {{- if .isGoogle }}
 
