@@ -15,6 +15,7 @@
     "editor.tabSize": 4,
     "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
     "editor.wordWrap": "off",
+    "editor.minimap.autohide": "mouseover",
 
     "files.autoSave": "onFocusChange",
     "files.exclude": {
