@@ -6,6 +6,14 @@ input * {
   repeat_rate 35
 }
 
+{{- if .isGoogle }}
+# Google stuff
+exec /usr/share/goobuntu-indicator/goobuntu_indicator.py
+
+# Remap evoluent mouse buttons
+exec input-remapper-control --command autoload
+{{- end }}
+
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -145,14 +153,6 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-
-# Google stuff
-exec /usr/share/goobuntu-indicator/goobuntu_indicator.py
-
-# Remap evoluent mouse buttons
-# From discussion on https://github.com/swaywm/sway/issues/3960
-bindsym --input-device=6780:401:Kingsis_Peripherals_Evoluent_VerticalMouse_4 --whole-window BTN_FORWARD exec wtype -k XF86Back
-bindsym --input-device=6780:401:Kingsis_Peripherals_Evoluent_VerticalMouse_4 --whole-window BTN_SIDE exec wtype -k XF86Forward
 
 # Lock the screen
 exec swayidle -w \
