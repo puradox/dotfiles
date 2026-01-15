@@ -17,6 +17,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 fi
 
+eval "$(direnv hook bash)"
+
 {{- else if .isMac }}
 
 # Homebrew
@@ -43,6 +45,8 @@ else
 fi
 
 autoload -U +X compinit && compinit
+
+eval "$(direnv hook zsh)"
 
 {{- end }}
 
