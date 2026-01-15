@@ -24,6 +24,9 @@ export PKG_CONFIG_PATH="/usr/local/share/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="/usr/local/lib64/:$LD_LIBRARY_PATH"
 
+# neovim
+export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+
 {{- if .isGoogle }}
 # Fuchsia
 export PATH="$HOME/Dev/infra/fuchsia/prebuilt/tools:$PATH"
