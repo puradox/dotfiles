@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Preferred editor for local and remote sessions
-export EDITOR='hx'
-export SUDO_EDITOR="$HOME/.cargo/bin/hx"
+export EDITOR='nvim'
+export SUDO_EDITOR=`which $EDITOR`
 
 # fzf - Command line fuzzy finder
 export FZF_DEFAULT_COMMAND='rg --files --glob "!{.git,node_modules,bower_components}"'
@@ -55,6 +55,5 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 {{- if .isGoogle }}
 # Fuchsia
-export FUCHSIA_SDK_DIR=/google/src/head/depot/google3/third_party/unsupported_toolchains/fuchsia/sdk
 export USE_GOMA=1
 {{- end }}
