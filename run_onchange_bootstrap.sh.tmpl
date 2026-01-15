@@ -126,6 +126,10 @@ cargo install ripgrep
 cargo install --locked starship
 cargo install --locked zellij
 
+# TODO(https://github.com/arxanas/git-branchless/issues/1585): Remove
+rustup install 1.82
+cargo +1.82 install --locked git-branchless
+
 {{/*- Disabled
 # Install vim-plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

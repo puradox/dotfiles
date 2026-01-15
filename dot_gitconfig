@@ -6,7 +6,7 @@
 [core]
 
   # Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error
   # [default] trailing-space: looks for spaces at the end of a line
@@ -31,7 +31,7 @@
 [delta]
 
   # Use n and N to move between diff sections.
-  navigate = true    
+  navigate = true
 
   side-by-side = true
 
@@ -206,11 +206,10 @@
 	insteadof = https://partner-android-review.googlesource.com
 
 [alias]
-  amend = commit --amend --no-edit
+  amend = "branchless amend"
   up = "!git push origin HEAD:refs/for/${1:-main}%publish-comments"
   uc = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,publish-comments"
   uca = "!git push origin HEAD:refs/for/${1:-main}%l=Commit-Queue+1,l=Fuchsia-Auto-Submit+1,publish-comments"
-  fixup = "!git commit -m \"${1:-fix}\" && git stash && (git rebase -i HEAD~10; git stash pop)"
 [url "sso://fuchsia/"]
 	insteadOf = https://fuchsia.googlesource.com/
 	insteadOf = https://fuchsia-review.googlesource.com/
