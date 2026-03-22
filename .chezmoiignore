@@ -7,6 +7,7 @@ README.md
 .Xresources
 .xsessionrc
 
+.config/Code
 .config/environment.d
 .config/kanshi
 .config/sway
@@ -21,6 +22,7 @@ README.md
 {{- end }}
 
 {{- if not .isMac }}
+Library
 .zprofile
 .zshrc
 {{- end }}
