@@ -74,3 +74,10 @@ eval "$(starship init bash)"
 {{- else if .isMac }}
 eval "$(starship init zsh)"
 {{- end }}
+
+# mise dev environments
+{{- if .isLinux }}
+eval "$(mise activate bash)"
+{{- else if .isMac }}
+eval "$(mise activate zsh)"
+{{- end }}

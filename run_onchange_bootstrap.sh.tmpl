@@ -67,9 +67,12 @@ sudo -v
   defaults write -g InitialKeyRepeat -int 15
   defaults write -g KeyRepeat -int 2
 
+  # Show hidden files
+  defaults write com.apple.Finder AppleShowAllFiles true
+
   # Install Homebrew
   if ! hash brew 2>/dev/null; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 
   # Make sure we’re using the latest Homebrew.
@@ -78,36 +81,34 @@ sudo -v
   # Upgrade any already-installed formulae.
   brew upgrade
 
-  # Install developer utilities
-  brew install git
-  brew install git-delta
-  brew install fzf
-  brew install direnv
+  brew bundle --file=/dev/stdin <<EOF
 
-  # Install Python
-  brew install pipx
+  brew "cargo-binstall"
+  brew "direnv"
+  brew "fzf"
+  brew "git"
+  brew "git-delta"
+  brew "go"
+  brew "mise"
+  brew "neovim"
+  brew "pipx"
+
+  cask "ghostty"       # terminal
+  cask "google-chrome"
+  cask "hyperkey"      # rebind caps lock
+  cask "obsidian"      # notetaking
+  cask "rectangle"     # window snapping
+  cask "spotify"
+  cask "visual-studio-code"
+EOF
+
+  brew install --cask font-fira-code-nerd-font
+
+  # Python
   pipx ensurepath
 
-  # Install Neovim
-  brew install neovim
-
-  # Install Go
-  brew install go
-  brew install hg
-  brew install bzr
+  # golang
   mkdir $HOME/go
-
-  # Desktop utilities
-  brew install --cask rectangle # window snapping
-  brew install --cask hyperkey  # rebind caps lock
-
-  # Install web applications
-  brew install --cask google-chrome
-
-  # Install development tools
-  brew install --cask visual-studio-code
-  brew install --cask wezterm
-  brew install --cask kitty
 
   # Remove outdated versions from the cellar.
   brew cleanup
@@ -132,9 +133,10 @@ cargo install --locked zellij
 rustup install 1.82
 cargo +1.82 install --locked git-branchless
 
-{{/*- Disabled
 # Install vim-plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 nvim +PlugInstall +qall
-*/}}
+
+# Install Claude Code
+curl -fsSL https://claude.ai/install.sh | bash
