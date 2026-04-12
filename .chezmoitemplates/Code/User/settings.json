@@ -369,6 +369,11 @@
     ],
 
     //
+    // Claude Code
+    //
+    "claudeCode.preferredLocation": "panel",
+
+    //
     // Etc
     //
 }
