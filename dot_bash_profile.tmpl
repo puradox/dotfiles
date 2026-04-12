@@ -81,3 +81,10 @@ eval "$(mise activate bash)"
 {{- else if .isMac }}
 eval "$(mise activate zsh)"
 {{- end }}
+
+# uv bash completion
+{{- if .isLinux }}
+eval "$(uv generate-shell-completion bash)"
+{{- else if .isMac }}
+eval "$(uv generate-shell-completion zsh)"
+{{- end }}

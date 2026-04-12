@@ -92,14 +92,18 @@ sudo -v
   brew "mise"
   brew "neovim"
   brew "pipx"
+  brew "uv"            # Python package/project manager
 
+  cask "discord"
   cask "ghostty"       # terminal
   cask "google-chrome"
   cask "hyperkey"      # rebind caps lock
   cask "obsidian"      # notetaking
   cask "rectangle"     # window snapping
   cask "spotify"
+  cask "tailscale-app" # VPN
   cask "visual-studio-code"
+  cask "vlc"
 EOF
 
   brew install --cask font-fira-code-nerd-font
@@ -118,6 +122,7 @@ EOF
 source ~/.bash_profile;
 
 # Install Python packages
+uv tool install --upgrade pynvim
 pipx install argcomplete
 
 # Install Rust
