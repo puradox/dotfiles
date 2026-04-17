@@ -1,4 +1,4 @@
-# Add the 'build' type for Fuchsia build files.
+# Add the 'build' type for build files.
 --type-add
 build:*.{gn,gni,bazel,bzl}*
 

@@ -50,11 +50,6 @@ eval "$(direnv hook zsh)"
 
 {{- end }}
 
-if [ -d ~/fuchsia ]; then
-  # Fuchsia
-  source ~/fuchsia/scripts/fx-env.sh
-fi
-
 # Rust
 . "$HOME/.cargo/env"
 

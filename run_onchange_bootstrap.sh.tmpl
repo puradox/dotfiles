@@ -49,17 +49,6 @@ sudo -v
   xdg-mime default org.kde.dolphin.desktop inode/directory
   sudo apt install kitty-terminfo # Ensure terminfo is available
 
-  {{- if .isGoogle }}
-
-    #
-    # Install gLinux specific packages and configuration.
-    #
-
-    # Required for using Bazel build servers
-    sudo apt install google-cloud-cli
-
-  {{- end }}
-
 {{- else if .isMac }}
 
   # Lower key repeat

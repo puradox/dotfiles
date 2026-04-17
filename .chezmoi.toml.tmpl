@@ -9,16 +9,9 @@
 {{- $isLinux = true }}
 {{- end}}
 
-{{- $isGoogle := false }}
-{{- if or (contains "corp.google.com" .chezmoi.fqdnHostname) (contains "c.googlers.com" .chezmoi.fqdnHostname) }}
-{{- $isGoogle = true }}
-{{- end}}
-
 [data]
 isMac = {{ $isMac }}
 isLinux = {{ $isLinux }}
-isGoogle = {{ $isGoogle }}
-isGoogleLinux = {{ and $isGoogle $isLinux }}
 
 [edit]
 command = "hx"

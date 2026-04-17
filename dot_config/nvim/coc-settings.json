@@ -25,21 +25,6 @@
       "command": "rust-analyzer",
       "filetypes": ["rust"],
       "rootPatterns": ["rust-project.json"]
-    },
-    "ciderlsp": {
-      "enable": true,
-      "command": "/google/bin/releases/editor-devtools/ciderlsp",
-      "args": [
-        "--tooltag=coc-nvim",
-        "--noforward_sync_responses"
-      ],
-      "filetypes": [
-        "c",
-        "cpp",
-        "proto",
-        "textproto",
-        "go"
-      ]
     }
   }
 }

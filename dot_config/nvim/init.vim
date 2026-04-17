@@ -1,20 +1,3 @@
-"===============================[ Fuchsia ]=====================================
-if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
-  source $FUCHSIA_DIR/scripts/vim/fuchsia.vim
-
-  exec 'autocmd BufEnter ! setlocal textwidth=100' . fnameescape($FUCHSIA_DIR . '/*.md')
-  autocmd FileType fidl setlocal colorcolumn=81
-  autocmd FileType fidl setlocal textwidth=80
-  autocmd FileType go setlocal colorcolumn=81
-  autocmd FileType go setlocal textwidth=80
-
-  let $FUCHSIA_BUILD_DIR = trim(system('fx get-build-dir'))
-  let $GOROOT = $FUCHSIA_BUILD_DIR . '/host-tools/goroot'
-  let $GOPATH = $FUCHSIA_BUILD_DIR . '/gen/gopaths/grand_unified_binary'
-  let $GOFLAGS = '-tags=fuchsia'
-  let $GO111MODULE = 'off'
-endif
-
 "===============================[ Plugins ]=====================================
 filetype plugin indent on
 syntax enable
@@ -63,10 +46,6 @@ Plug 'dstein64/vim-startuptime'       " view startup timing
 " Disabled
 "Plug 'airblade/vim-gitgutter'        " git line diff
 "Plug 'jiangmiao/auto-pairs'          " bracket pairs
-
-if getcwd() =~ $FUCHSIA_DIR
-  Plug $FUCHSIA_DIR . '/garnet/public/lib/fidl/tools/vim'
-endif
 
 call plug#end()
 
@@ -119,35 +98,6 @@ nnoremap <silent> gc <cmd>lua vim.lsp.buf.rename()<CR>
 lua << EOF
 vim.lsp.enable("rust_analyzer")
 EOF
-
-if $FUCHSIA_DIR != "" && getcwd() =~ $FUCHSIA_DIR
-lua << EOF
-local fuchsia_dir = os.getenv("FUCHSIA_DIR")
-
-if fuchsia_dir ~= nil then
-  vim.lsp.config('clangd', {
-    cmd = { fuchsia_dir .. "/prebuilt/third_party/clang/linux-x64/bin/clangd", "--background-index" },
-  })
-end
-EOF
-endif
-
-if getcwd() =~ "/google/src/cloud"
-lua << EOF
-local lspconfig = require('lspconfig')
-local configs = require('lspconfig.configs')
-configs.ciderlsp = {
- default_config = {
-   cmd = {'/google/bin/releases/cider/ciderlsp/ciderlsp', '--tooltag=nvim-lsp' , '--noforward_sync_responses'},
-   filetypes = {'c', 'cpp', 'java', 'proto', 'textproto', 'go', 'python', 'bzl'},
-   root_dir = lspconfig.util.root_pattern('BUILD'),
-   settings = {},
- }
-}
-
-nvim_lsp.ciderlsp.setup{}
-EOF
-endif
 
 "===============================[ Shougo/deoplete.nvim ]========================
 

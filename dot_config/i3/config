@@ -160,13 +160,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Google stuff
-exec /usr/share/goobuntu-indicator/goobuntu_indicator.py                   # gLinux indicator
-bindsym $mod+Ctrl+l exec i3lock -color 000000 # lock screen
-
-# Auto-lock the screen
-exec --no-startup-id env LOCKED_BY_SESSION_IDLE=true xautolock -time 10 -locker i3lock
-
 # Authentication agent for VMware
 exec /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 

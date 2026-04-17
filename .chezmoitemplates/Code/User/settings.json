@@ -159,20 +159,7 @@
     "rust-analyzer.inlayHints.parameterHints.enable": false,
     "rust-analyzer.cargo.cfgs": [
         "debug_assertions",
-        "miri",
-        "target_os=fuchsia",
-        "fuchsia_api_level_at_least=HEAD",
-        "fuchsia_api_level_at_least=25",
-        "fuchsia_api_level_at_least=24",
-        "fuchsia_api_level_at_least=23",
-        "fuchsia_api_level_at_least=22",
-        "fuchsia_api_level_at_least=21",
-        "fuchsia_api_level_at_least=20",
-        "fuchsia_api_level_at_least=19",
-        "fuchsia_api_level_at_least=18",
-        "fuchsia_api_level_at_least=26",
-        "fuchsia_api_level_at_least=27",
-        "fuchsia_api_level_at_least=28"
+        "miri"
     ],
 
     //
@@ -194,7 +181,6 @@
 
     "[java]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "google.g3",
         "editor.rulers": [100]
     },
 
@@ -219,38 +205,6 @@
     //
 
     "C_Cpp.intelliSenseEngine": "disabled",
-
-    //
-    // Google / Fuchsia
-    //
-    "[bcl]": {
-        "editor.defaultFormatter": "cider-team.vscode-ciderlsp"
-    },
-    "[starlark]": {
-        "editor.defaultFormatter": "BazelBuild.vscode-bazel"
-    },
-    "clangd.path": "~/fuchsia/prebuilt/third_party/clang/linux-x64/bin/clangd",
-    "clangd.arguments": [
-        "--clang-tidy",
-        "--background-index"
-    ],
-    "gitlens.autolinks": [
-        {
-            "prefix": "Change-Id: ",
-            "url": "https://fxrev.dev/<num>",
-            "alphanumeric": true
-        },
-        {
-            "prefix": "fxb/",
-            "url": "https://fxrev.dev/<num>",
-            "alphanumeric": true
-        },
-        {
-            "prefix": "b/",
-            "url": "https://b.corp.google.com/issues/<num>",
-            "alphanumeric": true
-        },
-    ],
 
     //
     // Spelling

@@ -17,10 +17,6 @@ README.md
 
 {{- end }}
 
-{{- if not .isGoogleLinux }}
-.config/input-remapper-2
-{{- end }}
-
 {{- if not .isMac }}
 Library
 .zprofile

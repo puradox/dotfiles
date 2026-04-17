@@ -52,8 +52,3 @@ export XDG_SESSION_TYPE=wayland
 export QT_WAYLAND_FORCE_DPI=physical
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 {{- end }}
-
-{{- if .isGoogle }}
-# Fuchsia
-export USE_GOMA=1
-{{- end }}
